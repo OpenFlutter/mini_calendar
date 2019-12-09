@@ -1,5 +1,5 @@
-name: flutter_calendar_example
-description: Demonstrates how to use the flutter_calendar plugin.
+name: mini_calendar_example
+description: Demonstrates how to use the mini_calendar package.
 publish_to: 'none'
 
 environment:
@@ -17,7 +17,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_calendar:
+  mini_calendar:
     path: ../
 
 # For information on the generic Dart part of this file, see the
