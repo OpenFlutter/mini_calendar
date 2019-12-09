@@ -1,44 +1,48 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter_calendar/flutter_calendar.dart';
+import 'calendar_view.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  Future<void> initPlatformState() async {
-    if (!mounted) return;
-
-    setState(() {});
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('日历示例')),
-        backgroundColor: Colors.grey,
-        body: ListView(
-          children: <Widget>[
-            Container(
-              height: 320,
-              color: Colors.white,
-              child: FlutterCalender(pickingTime: DateTime.now()),
-            )
-          ],
-        ),
+    return new MaterialApp(
+      title: 'mini calendar',
+      home: new HomeWidget(),
+    );
+  }
+}
+
+class HomeWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('mini calendar'),
+        centerTitle: true,
+      ),
+      body: ListView(
+        children: <Widget>[
+          RaisedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new CalendarViewPage()),
+              );
+            },
+            child: new Text('显示日历'),
+          )
+        ],
       ),
     );
+  }
+
+  void pushPage(BuildContext context, Widget page) {
+    Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+      return page;
+    }));
   }
 }

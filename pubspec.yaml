@@ -1,8 +1,8 @@
-name: flutter_calendar
-description: A new Flutter plugin.
+name: mini_calendar
+description: Calendar components developed by Flutter.
 version: 0.0.1
-author:
-homepage:
+author: yshye<yshye2013@gmain.com>
+homepage: https://github.com/flutterme/mini_calendar
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
