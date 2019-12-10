@@ -1,4 +1,4 @@
-package cn.flutterme.flutter_calendar_example
+package cn.flutterme.mini_calendar_example
 
 import android.os.Bundle
 

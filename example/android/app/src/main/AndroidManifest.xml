@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.flutterme.flutter_calendar_example">
+    package="cn.flutterme.mini_calendar_example">
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -8,7 +8,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="flutter_calendar_example"
+        android:label="mini_calendar_example"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

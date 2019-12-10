@@ -1,13 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mini_calendar/handle.dart';
+import 'package:mini_calendar/model/date_day.dart';
 
 void main() {
-  test("DateHanddle", () {
-    DateHandle dateHandle = DateHandle(DateTime(2019, 2, 2));
-    expect(dateHandle.maxDays, equals(28));
-    expect(dateHandle.startDay, equals(DateTime(2019, 2, 1)));
-    expect(dateHandle.endDay, equals(DateTime(2019, 2, 28)));
-
-    expect(isToDay(DateTime(2019,12,10)),true);
+  test("DateDay", () {
+    expect(DateDay(2019, 12, 10).isToday(), true);
+    expect(DateDay(2019, 12, 10) > DateDay(2019, 12, 9), true);
+    expect(DateDay(2019, 12, 10) < DateDay(2019, 12, 11), true);
+    expect(DateDay(2019, 2, 29) == DateDay(2019, 3, 1), true);
+    expect(DateDay(2019, 3, 29).monthFirstDay == DateDay(2019, 3, 1), true);
+    expect(DateDay(2019, 3, 29).monthEndDay == DateDay(2019, 3, 31), true);
+    expect(DateDay(2019, 3, 29).maxDays == 31, true);
   });
 }
