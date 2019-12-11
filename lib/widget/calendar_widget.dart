@@ -119,7 +119,7 @@ class MiniCalender<T> extends StatelessWidget {
       children: months
           .map(
             (month) => MonthWidget(
-              inMonth: month,
+              currentMonth: month,
               currentDay: _currentDay,
               dayHeight: dayHeight,
               width: width,
