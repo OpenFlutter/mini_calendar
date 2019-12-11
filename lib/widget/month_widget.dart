@@ -4,13 +4,17 @@
 ///
 import 'package:flutter/material.dart';
 import 'package:mini_calendar/mini_calendar.dart';
+import 'package:mini_calendar/model/date_month.dart';
 import '../model/date_day.dart';
 import '../handle.dart';
 import 'day_widget.dart';
 
 class MonthWidget<T> extends StatelessWidget {
   /// 所在月份
-  final DateDay inMonth;
+  final DateMonth currentMonth;
+
+  /// 当前选中日期
+  final DateDay currentDay;
 
   /// 边距
   final EdgeInsets padding;
@@ -33,12 +37,12 @@ class MonthWidget<T> extends StatelessWidget {
   /// 标记
   final Map<DateDay, T> marks;
 
-  /// 当前选中日期
-  final DateDay currentDay;
+  /// 第一列是星期几（1，2，3，4，5，6，7）
+  final int firstWeek;
 
   const MonthWidget({
     Key key,
-    this.inMonth,
+    this.currentMonth,
     this.padding = const EdgeInsets.all(0),
     this.color = Colors.transparent,
     this.dayHeight,
@@ -47,18 +51,25 @@ class MonthWidget<T> extends StatelessWidget {
     this.marks = const {},
     this.onDaySelected,
     this.currentDay,
+    this.firstWeek = 7,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double _dayWidth = (width - padding.left - padding.right - 18.0) / 7.0;
     double _dayHeight = dayHeight ?? _dayWidth;
-    int startWeek = inMonth.monthFirstDay.weekday;
+    int startWeek = currentMonth.monthFirstDay.weekday;
     List<Widget> items = [];
     DateDay _time = DateDay.now();
-    for (int i = 1; i < startWeek; i++) {
+    int headSize = 0;
+    if(startWeek>firstWeek){
+      headSize = startWeek-firstWeek;
+    }else if(startWeek < firstWeek){
+      headSize = 7 - firstWeek + startWeek;
+    }
+    List.generate(headSize, (index){
       _time =
-          DateDay(inMonth.monthFirstDay.year, inMonth.monthFirstDay.month, 1).subtract(Duration(days: startWeek - i));
+          DateDay(currentMonth.monthFirstDay.year, currentMonth.monthFirstDay.month, 1).subtract(Duration(days: startWeek - index));
       items.add(DayWidget(
         dayTime: _time,
         style: disableDayStyle,
@@ -71,9 +82,28 @@ class MonthWidget<T> extends StatelessWidget {
         currentDay: currentDay,
         edit: false,
       ));
-    }
-    List.generate(inMonth.maxDays, (index) {
-      _time = DateDay(inMonth.monthFirstDay.year, inMonth.monthFirstDay.month, 1).add(Duration(days: index));
+    });
+
+
+
+//    for (int i = 1; i < startWeek; i++) {
+//      _time =
+//          DateDay(currentMonth.monthFirstDay.year, currentMonth.monthFirstDay.month, 1).subtract(Duration(days: startWeek - i));
+//      items.add(DayWidget(
+//        dayTime: _time,
+//        style: disableDayStyle,
+//        height: _dayHeight,
+//        width: _dayWidth,
+//        hasMark: marks.containsKey(_time),
+//        data: marks[_time],
+//        buildMark: buildMark,
+//        onDaySelected: onDaySelected,
+//        currentDay: currentDay,
+//        edit: false,
+//      ));
+//    }
+    List.generate(currentMonth.maxDays, (index) {
+      _time = DateDay(currentMonth.monthFirstDay.year, currentMonth.monthFirstDay.month, 1).add(Duration(days: index));
       items.add(DayWidget(
         dayTime: _time,
         style: defaultDayStyle,
@@ -86,9 +116,12 @@ class MonthWidget<T> extends StatelessWidget {
         currentDay: currentDay,
       ));
     });
-    int endWeek = inMonth.monthEndDay.weekday;
-    for (int i = 1; i < 8 - endWeek; i++) {
-      _time = DateDay(inMonth.monthEndDay.year, inMonth.monthEndDay.month, inMonth.maxDays).add(Duration(days: i));
+
+
+    int endSize = 42 - headSize - currentMonth.maxDays;
+//    int endWeek = currentMonth.monthEndDay.weekday;
+    for (int i = 1; i <= endSize; i++) {
+      _time = DateDay(currentMonth.monthEndDay.year, currentMonth.monthEndDay.month, currentMonth.maxDays).add(Duration(days: i));
       items.add(DayWidget(
         dayTime: _time,
         style: disableDayStyle,
@@ -104,7 +137,7 @@ class MonthWidget<T> extends StatelessWidget {
     }
 
     return Container(
-      height: _dayHeight * 7 + padding.top + padding.bottom,
+      height: _dayHeight * 6 + padding.top  + padding.bottom + 15,
       width: width,
       padding: padding,
       color: color,

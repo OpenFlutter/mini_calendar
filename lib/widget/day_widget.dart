@@ -7,7 +7,7 @@ class DayWidget<T> extends StatelessWidget {
   /// 当前显示的日期
   final DateDay dayTime;
 
-  /// 日期颜色
+  /// 日期样式
   final TextStyle style;
 
   /// 是否可选
@@ -53,7 +53,7 @@ class DayWidget<T> extends StatelessWidget {
     TextStyle _style = style;
     Color _sideColor = Colors.grey[200];
     if (dayTime.weekday > 5) {
-      _style = style.copyWith(color: edit ? Colors.pink[300] : Colors.pink[200]);
+      _style = style.copyWith(color: edit ? Colors.pink[300] : Colors.pink[100]);
     }
     if (dayTime.isToday()) {
       _style = style.copyWith(color: Colors.green);
