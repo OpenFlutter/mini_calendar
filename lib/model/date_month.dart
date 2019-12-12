@@ -1,13 +1,21 @@
+
 import 'date_day.dart';
 
 class DateMonth {
-  DateTime time;
+  DateTime _time;
+  DateTime get time => _time;
 
-  int year;
+  int _year;
 
-  int month;
+  int get year => _year;
 
-  int maxDays;
+  int _month;
+
+  int get month => _month;
+
+  int _maxDays;
+
+  int get maxDays => _maxDays;
 
   DateDay get monthFirstDay => DateDay(year, month, 1);
 
@@ -15,13 +23,14 @@ class DateMonth {
 
   DateMonth([int year, int month]) : this.dateTime(DateTime(year, month, 1));
 
-  DateMonth.dateTime(this.time) {
-    year = this.time.year;
-    month = this.time.month;
-    maxDays = DateTime(this.time.year, this.time.month + 1, 1)
+  DateMonth.dateTime(this._time) {
+    _year = this.time.year;
+    _month = this.time.month;
+    _maxDays = DateTime(this.time.year, this.time.month + 1, 1)
         .add(Duration(days: -1))
         .day;
   }
+
   DateMonth.now() : this.dateTime(DateTime.now());
 
   DateMonth copyWith({int year, int month}) {

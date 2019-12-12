@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'calendar_view.dart';
+import 'page_view_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,24 +26,18 @@ class HomeWidget extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
-          RaisedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) => new CalendarViewPage()),
-              );
-            },
-            child: new Text('显示日历'),
-          )
+          _buildItem(context, '显示日历', CalendarViewPage()),
+          _buildItem(context, '测试切屏', PageViewPage()),
         ],
       ),
     );
   }
 
-  void pushPage(BuildContext context, Widget page) {
-    Navigator.push(context, MaterialPageRoute(builder: (ctx) {
-      return page;
-    }));
+  Widget _buildItem(BuildContext context, String title, Widget page) {
+    return ListTile(
+      title: Text(title ?? ''),
+      onTap: () =>
+          Navigator.push(context, MaterialPageRoute(builder: (ctx) => page)),
+    );
   }
 }
