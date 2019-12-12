@@ -28,6 +28,7 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
               currentMonth: DateMonth(2019, index + 1),
               width: width,
               color: Colors.white,
+              firstWeek: (index+1)%7,
             )));
     });
 

@@ -62,14 +62,15 @@ class MonthWidget<T> extends StatelessWidget {
     List<Widget> items = [];
     DateDay _time = DateDay.now();
     int headSize = 0;
-    if(startWeek>firstWeek){
-      headSize = startWeek-firstWeek;
-    }else if(startWeek < firstWeek){
+    if (startWeek > firstWeek) {
+      headSize = startWeek - firstWeek;
+    } else if (startWeek < firstWeek) {
       headSize = 7 - firstWeek + startWeek;
     }
-    List.generate(headSize, (index){
-      _time =
-          DateDay(currentMonth.monthFirstDay.year, currentMonth.monthFirstDay.month, 1).subtract(Duration(days: startWeek - index));
+    List.generate(headSize, (index) {
+      _time = DateDay(currentMonth.monthFirstDay.year,
+              currentMonth.monthFirstDay.month, 1)
+          .subtract(Duration(days: headSize - index));
       items.add(DayWidget(
         dayTime: _time,
         style: disableDayStyle,
@@ -84,26 +85,10 @@ class MonthWidget<T> extends StatelessWidget {
       ));
     });
 
-
-
-//    for (int i = 1; i < startWeek; i++) {
-//      _time =
-//          DateDay(currentMonth.monthFirstDay.year, currentMonth.monthFirstDay.month, 1).subtract(Duration(days: startWeek - i));
-//      items.add(DayWidget(
-//        dayTime: _time,
-//        style: disableDayStyle,
-//        height: _dayHeight,
-//        width: _dayWidth,
-//        hasMark: marks.containsKey(_time),
-//        data: marks[_time],
-//        buildMark: buildMark,
-//        onDaySelected: onDaySelected,
-//        currentDay: currentDay,
-//        edit: false,
-//      ));
-//    }
     List.generate(currentMonth.maxDays, (index) {
-      _time = DateDay(currentMonth.monthFirstDay.year, currentMonth.monthFirstDay.month, 1).add(Duration(days: index));
+      _time = DateDay(currentMonth.monthFirstDay.year,
+              currentMonth.monthFirstDay.month, 1)
+          .add(Duration(days: index));
       items.add(DayWidget(
         dayTime: _time,
         style: defaultDayStyle,
@@ -117,11 +102,11 @@ class MonthWidget<T> extends StatelessWidget {
       ));
     });
 
-
     int endSize = 42 - headSize - currentMonth.maxDays;
-//    int endWeek = currentMonth.monthEndDay.weekday;
     for (int i = 1; i <= endSize; i++) {
-      _time = DateDay(currentMonth.monthEndDay.year, currentMonth.monthEndDay.month, currentMonth.maxDays).add(Duration(days: i));
+      _time = DateDay(currentMonth.monthEndDay.year,
+              currentMonth.monthEndDay.month, currentMonth.maxDays)
+          .add(Duration(days: i));
       items.add(DayWidget(
         dayTime: _time,
         style: disableDayStyle,
@@ -137,7 +122,7 @@ class MonthWidget<T> extends StatelessWidget {
     }
 
     return Container(
-      height: _dayHeight * 6 + padding.top  + padding.bottom + 15,
+      height: _dayHeight * 6 + padding.top + padding.bottom + 15,
       width: width,
       padding: padding,
       color: color,
