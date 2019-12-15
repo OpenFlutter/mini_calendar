@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 import 'calendar_view.dart';
-import 'page_view_page.dart';
+import 'month_page_view_demo.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,7 +26,7 @@ class HomeWidget extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           _buildItem(context, '显示日历', CalendarViewPage()),
-          _buildItem(context, '测试切屏', PageViewPage()),
+          _buildItem(context, '滑动日历', MonthPageViewDemo()),
         ],
       ),
     );
@@ -36,8 +35,7 @@ class HomeWidget extends StatelessWidget {
   Widget _buildItem(BuildContext context, String title, Widget page) {
     return ListTile(
       title: Text(title ?? ''),
-      onTap: () =>
-          Navigator.push(context, MaterialPageRoute(builder: (ctx) => page)),
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (ctx) => page)),
     );
   }
 }

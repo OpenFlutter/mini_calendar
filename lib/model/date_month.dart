@@ -1,4 +1,3 @@
-
 import 'date_day.dart';
 
 class DateMonth {
@@ -26,9 +25,7 @@ class DateMonth {
   DateMonth.dateTime(this._time) {
     _year = this.time.year;
     _month = this.time.month;
-    _maxDays = DateTime(this.time.year, this.time.month + 1, 1)
-        .add(Duration(days: -1))
-        .day;
+    _maxDays = DateTime(this.time.year, this.time.month + 1, 1).add(Duration(days: -1)).day;
   }
 
   DateMonth.now() : this.dateTime(DateTime.now());
@@ -37,8 +34,7 @@ class DateMonth {
     return DateMonth(year ?? this.year, month ?? this.month);
   }
 
-  DateMonth subtract(Duration duration) =>
-      DateMonth.dateTime(time.subtract(duration));
+  DateMonth subtract(Duration duration) => DateMonth.dateTime(time.subtract(duration));
 
   DateMonth add(Duration duration) => DateMonth.dateTime(time.add(duration));
 
@@ -52,14 +48,15 @@ class DateMonth {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is DateMonth && num == other.num;
+  bool operator ==(Object other) => identical(this, other) || other is DateMonth && num == other.num;
 
-  bool operator >(Object other) =>
-      other is DateMonth && runtimeType == other.runtimeType && num > other.num;
+  bool operator >(Object other) => other is DateMonth && runtimeType == other.runtimeType && num > other.num;
 
-  bool operator <(Object other) =>
-      other is DateMonth && runtimeType == other.runtimeType && num < other.num;
+  bool operator <(Object other) => other is DateMonth && runtimeType == other.runtimeType && num < other.num;
+
+  bool operator >=(Object other) => other is DateMonth && runtimeType == other.runtimeType && num >= other.num;
+
+  bool operator <=(Object other) => other is DateMonth && runtimeType == other.runtimeType && num <= other.num;
 
   @override
   int get hashCode => num.hashCode;
