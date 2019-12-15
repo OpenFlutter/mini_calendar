@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mini_calendar/mini_calendar.dart';
+import '../handle.dart';
 import '../model/date_day.dart';
 
 /// 日视图
@@ -32,7 +32,10 @@ class DayWidget<T> extends StatelessWidget {
   final T data;
 
   /// 是否被选中
-  final DateDay currentDay;
+  final bool isSelected;
+
+  /// 是否被连选
+  final bool isContinuous;
 
   const DayWidget({
     Key key,
@@ -45,8 +48,10 @@ class DayWidget<T> extends StatelessWidget {
     this.buildMark,
     this.data,
     this.onDaySelected,
-    this.currentDay,
-  }) : super(key: key);
+    this.isSelected = false,
+    this.isContinuous = false,
+  })  : assert(isSelected != null && isContinuous != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +64,8 @@ class DayWidget<T> extends StatelessWidget {
       _style = style.copyWith(color: Colors.green);
       _sideColor = Colors.green;
     }
-    if (currentDay != null && currentDay == dayTime) {
-      _sideColor = Colors.blue;
-    }
+    if (isSelected) _sideColor = Colors.blue;
+    if (isContinuous) _sideColor = Colors.deepOrange;
 
     List<Widget> items = [Center(child: Text("${dayTime.day}${hasMark ? '' : ''}", style: _style))];
     if (hasMark) {
@@ -78,6 +82,7 @@ class DayWidget<T> extends StatelessWidget {
     }
 
     return Material(
+      color: Colors.transparent,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(3),
           side: BorderSide(
