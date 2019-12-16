@@ -7,7 +7,7 @@ class MonthPageViewDemo extends StatefulWidget {
 }
 
 class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
-  MonthPageController controller;
+  MonthPageController _controller;
   DateMonth _month = DateMonth.now();
   DateDay _firstDay, _secondDay, _day;
   bool _checked = true;
@@ -30,8 +30,8 @@ class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
                   value: _checked,
                   onChanged: (select) {
                     _checked = select;
-                    if (controller != null)
-                      controller
+                    if (_controller != null)
+                      _controller
                         ..setEnableContinuous(_checked)
                         ..reLoad();
                     setState(() {});
@@ -68,12 +68,12 @@ class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
                   _data = data;
                   setState(() {});
                 },
-                onCreated: (c) => controller = c,
+                onCreated: (c) => _controller = c,
               ),
             ),
             Container(child: Text('''
 当前月份：$_month
-当前模式：${_checked ? '连选' : '单选'} 
+选择模式：${_checked ? '连选' : '单选'} 
 单选日期：${_day ?? ''}   ::   ${_data ?? ''}
 连选日期：${_firstDay ?? ''}  至  ${_secondDay ?? ''}
 '''), padding: EdgeInsets.all(10))
@@ -85,7 +85,7 @@ class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
 
   @override
   void dispose() {
-    controller?.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 }
