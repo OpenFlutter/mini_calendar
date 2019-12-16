@@ -24,14 +24,14 @@ class MonthController<T> {
     _monthController.sink.add(_option);
   }
 
-  void setCurrentMonth(DateMonth currentMonth) => _option.currentMonth = currentMonth;
-  void setCurrentDay(DateDay currentDay) => _option.currentDay = currentDay;
-  void setFirstWeek(int week) => _option.firstWeek = week;
-  void setEnableContinuous(bool enable) => _option.enableContinuous = enable;
+  void setCurrentMonth(DateMonth currentMonth) => _option.setCurrentMonth(currentMonth);
+  void setCurrentDay(DateDay currentDay) => _option.setCurrentDay(currentDay);
+  void setFirstWeek(int week) => _option.setFirstWeek(week);
+  void setEnableContinuous(bool enable) => _option.setEnableContinuous(enable);
   void setContinuousDay(DateDay firstDay, DateDay sercondDay) => _option
-    ..firstSelectDay = firstDay
-    ..secondSelectDay = sercondDay;
-  void setMarks(Map<DateDay, T> marks) => _option.marks = marks;
+    ..setFirstSelectDay(firstDay)
+    ..setSecondSelectDay(sercondDay);
+  void setMarks(Map<DateDay, T> marks) => _option.setMarks(marks);
 
   void reLoad() => _monthController.sink.add(_option);
 

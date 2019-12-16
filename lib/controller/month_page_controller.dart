@@ -17,6 +17,7 @@ class MonthPageController<T> {
 
   /// 初始化
   void init(MonthOption<T> option) {
+    assert(option != null);
     _option = option;
     _controllerList = [];
     List.generate(CACHE_SIZE, (index) {
@@ -58,14 +59,15 @@ class MonthPageController<T> {
     reLoad();
   }
 
-  void setCurrentDay(DateDay currentDay) => _option.currentDay = currentDay;
-  void setFirstWeek(int week) => _option.firstWeek = week;
-  void setEnableContinuous(bool enable) => _option.enableContinuous = enable;
+  void setCurrentDay(DateDay currentDay) => _option.setCurrentDay(currentDay);
+  void setFirstWeek(int week) => _option.setFirstWeek(week);
+  void setEnableContinuous(bool enable) => _option.setEnableContinuous(enable);
   void setContinuousDay(DateDay firstDay, DateDay sercondDay) => _option
-    ..firstSelectDay = firstDay
-    ..secondSelectDay = sercondDay;
-  void setMarks(Map<DateDay, T> marks) => _option.marks = marks;
+    ..setFirstSelectDay(firstDay)
+    ..setSecondSelectDay(sercondDay);
+  void setMarks(Map<DateDay, T> marks) => _option.setMarks(marks);
 
+  /// 更新组件
   void reLoad() {
     List.generate(_controllerList.length, (index) {
       _controllerList[index]
@@ -79,8 +81,9 @@ class MonthPageController<T> {
     _monthListController.sink.add(_monthList);
   }
 
+  /// 关闭
   void dispose() {
-    _controllerList.forEach((c) => c.dispose());
-    _monthListController.close();
+    _controllerList?.forEach((c) => c.dispose());
+    _monthListController?.close();
   }
 }
