@@ -73,63 +73,25 @@ class MonthWidget<T> extends StatelessWidget {
           double _dayWidth = (_width - padding.left - padding.right - SPACING * 6 - 1.0) / 7.0;
           double _dayHeight = dayHeight ?? _dayWidth;
           int startWeek = _currentMonth.monthFirstDay.weekday;
-          List<Widget> items = [];
-          DateDay _time = DateDay.now();
           int headSize = (7 + startWeek - option.firstWeek) % 7;
           int endSize = 7 - (headSize + _currentMonth.maxDays) % 7;
           endSize = endSize == 7 ? 0 : endSize;
           int _hSize = ((headSize + _currentMonth.maxDays + endSize) / 7.0).floor();
           double _height = _hSize * _dayHeight + (_hSize - 1) * RUN_SPACING;
 
+          List<DateDay> _days = [];
+
           List.generate(headSize, (index) {
-            _time = DateDay(_currentMonth.monthFirstDay.year, _currentMonth.monthFirstDay.month, 1)
-                .subtract(Duration(days: headSize - index));
-            items.add(DayWidget<T>(
-              dayTime: _time,
-              style: disableDayStyle,
-              height: _dayHeight,
-              width: _dayWidth,
-              hasMark: option.marks.containsKey(_time),
-              data: option.marks[_time],
-              buildMark: buildMark,
-              onDaySelected: onDaySelected,
-              isSelected: option.currentDay == _time,
-              isContinuous: _isContinuous(_time, option),
-              edit: false,
-            ));
+            _days.add(DateDay(_currentMonth.monthFirstDay.year, _currentMonth.monthFirstDay.month, 1)
+                .subtract(Duration(days: headSize - index)));
           });
           List.generate(_currentMonth.maxDays, (index) {
-            _time = DateDay(_currentMonth.monthFirstDay.year, _currentMonth.monthFirstDay.month, 1)
-                .add(Duration(days: index));
-            items.add(DayWidget<T>(
-              dayTime: _time,
-              style: weekDayStyle,
-              height: _dayHeight,
-              width: _dayWidth,
-              hasMark: option.marks.containsKey(_time),
-              data: option.marks[_time],
-              buildMark: buildMark,
-              onDaySelected: onDaySelected,
-              isSelected: option.currentDay == _time,
-              isContinuous: _isContinuous(_time, option),
-            ));
+            _days.add(DateDay(_currentMonth.monthFirstDay.year, _currentMonth.monthFirstDay.month, 1)
+                .add(Duration(days: index)));
           });
           List.generate(endSize, (index) {
-            _time = DateDay(_currentMonth.monthEndDay.year, _currentMonth.monthEndDay.month, _currentMonth.maxDays)
-                .add(Duration(days: index + 1));
-            items.add(DayWidget<T>(
-              dayTime: _time,
-              style: disableDayStyle,
-              edit: false,
-              height: _dayHeight,
-              width: _dayWidth,
-              hasMark: option.marks.containsKey(_time),
-              data: option.marks[_time],
-              buildMark: buildMark,
-              onDaySelected: onDaySelected,
-              isSelected: option.currentDay == _time,
-              isContinuous: _isContinuous(_time, option),
-            ));
+            _days.add(DateDay(_currentMonth.monthEndDay.year, _currentMonth.monthEndDay.month, _currentMonth.maxDays)
+                .add(Duration(days: index + 1)));
           });
 
           List<Widget> lay = [];
@@ -165,7 +127,25 @@ class MonthWidget<T> extends StatelessWidget {
               Container(
                 width: _width,
                 height: _height,
-                child: Wrap(spacing: SPACING, runSpacing: RUN_SPACING, children: items),
+                child: Wrap(
+                    spacing: SPACING,
+                    runSpacing: RUN_SPACING,
+                    children: _days.map((_time) {
+                      bool inMonth = _currentMonth.contain(_time);
+                      return DayWidget<T>(
+                        dayTime: _time,
+                        style: inMonth ? weekDayStyle : disableDayStyle,
+                        edit: inMonth,
+                        height: _dayHeight,
+                        width: _dayWidth,
+                        hasMark: option.marks.containsKey(_time),
+                        data: option.marks[_time],
+                        buildMark: buildMark,
+                        onDaySelected: onDaySelected,
+                        isSelected: option.currentDay == _time,
+                        isContinuous: _isContinuous(_time, option),
+                      );
+                    }).toList()),
               )
             ],
           ));

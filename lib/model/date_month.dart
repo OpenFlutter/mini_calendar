@@ -58,6 +58,8 @@ class DateMonth {
 
   bool operator <=(Object other) => other is DateMonth && runtimeType == other.runtimeType && num <= other.num;
 
+  bool contain(DateDay day) => day.year == this._year && day.month == this._month;
+
   @override
   int get hashCode => num.hashCode;
 
