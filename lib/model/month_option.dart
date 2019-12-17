@@ -49,8 +49,8 @@ class MonthOption<T> {
     bool enableContinuous = false,
     Map<DateDay, T> marks = const {},
   }) {
-    this._currentDay = currentDay ?? DateDay.now();
-    this._currentMonth = currentMonth ?? DateMonth(this.currentDay.year, this.currentDay.month);
+    this._currentDay = currentDay;
+    this._currentMonth = currentMonth ??(this.currentDay==null?DateMonth.now():DateMonth(this.currentDay.year, this.currentDay.month)) ;
     this._firstWeek = firstWeek;
     this._enableContinuous = enableContinuous;
     this._firstSelectDay = firstSelectDay;

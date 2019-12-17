@@ -1,4 +1,4 @@
-import 'package:mini_calendar/model/date_month.dart';
+import 'date_month.dart';
 
 class DateDay extends DateMonth {
   int _day;
@@ -25,11 +25,12 @@ class DateDay extends DateMonth {
   bool inMonth(DateMonth month) => year == month.year && this.month == month.month;
 
   @override
-  String toString() {
+  // ignore: invalid_override_different_default_values_named
+  String toString({String yearSuffix = '-',String monthSuffix = '-',String daySuffix =''}) {
     String y = fourDigits(year);
     String m = twoDigits(month);
     String d = twoDigits(day);
-    return "$y-$m-$d";
+    return "$y$yearSuffix$m$monthSuffix$d$daySuffix";
   }
 
   int get num => year * 10000 + month * 100 + day;

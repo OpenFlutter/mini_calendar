@@ -41,10 +41,10 @@ class DateMonth {
   int get weekday => time.weekday;
 
   @override
-  String toString() {
+  String toString({String yearSuffix = '-',String monthSuffix = ''}) {
     String y = fourDigits(year);
     String m = twoDigits(month);
-    return "$y-$m";
+    return "$y$yearSuffix$m$monthSuffix";
   }
 
   @override
