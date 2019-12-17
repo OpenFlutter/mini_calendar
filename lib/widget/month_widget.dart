@@ -4,6 +4,7 @@ import '../controller/month_controller.dart';
 import '../model/month_option.dart';
 import '../model/date_day.dart';
 import '../handle.dart';
+
 ///
 /// 月视图
 ///
@@ -51,10 +52,16 @@ class MonthWidget<T> extends StatelessWidget {
   /// 月视图头部背景色
   final Color monthHeadColor;
 
+  /// 工作日字体颜色
+  final Color weekColor;
+
+  /// 周末字体颜色
+  final Color weekendColor;
+
   /// 构建月视图头部
   final BuildWithMonth buildMonthHead;
 
-  /// 自定义日视图  <br/>
+  /// 默认构建日视图  <br/>
   /// [context] - 上下文  <br/>
   /// [height] - 控件高  <br/>
   /// [width] - 控件宽  <br/>
@@ -62,6 +69,8 @@ class MonthWidget<T> extends StatelessWidget {
   /// [enableSelect] - 是否可选 <br/>
   /// [hasMark] - 是否含有标记 <br/>
   /// [markData] - 标记内容 <br/>
+  /// [weekColor] - 工作日颜色 <br/>
+  /// [weekendColor] - 周末颜色 <br/>
   /// [isSelected] - 是否被单选 <br/>
   /// [isContinuous] - 是否被连选 <br/>
   /// [buildMark] - 自定义构建mark <br/>
@@ -90,16 +99,19 @@ class MonthWidget<T> extends StatelessWidget {
     this.height,
     this.weekHeadColor = Colors.transparent,
     this.monthHeadColor = Colors.transparent,
+    this.weekColor = Colors.blue,
+    this.weekendColor = Colors.pink,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    MonthController monthController = controller ?? MonthController.init()
+    MonthController _monthController = controller ?? MonthController.init()
       ..reLoad();
-    DateMonth _currentMonth = controller.option.currentMonth;
+
+    DateMonth _currentMonth = _monthController.option?.currentMonth;
     return StreamBuilder<MonthOption<T>>(
-        stream: monthController.monthStream(),
-        initialData: controller.option,
+        stream: _monthController.monthStream(),
+        initialData: _monthController.option,
         builder: (BuildContext context, AsyncSnapshot<MonthOption<T>> snapshot) {
           MonthOption<T> _option = snapshot?.data;
           if (_option == null) return Container();
@@ -136,7 +148,7 @@ class MonthWidget<T> extends StatelessWidget {
               color: monthHeadColor,
               padding: EdgeInsets.only(left: padding.left, right: padding.right, top: 5, bottom: 5),
               child: buildMonthHead != null
-                  ? buildMonthHead(context, _currentMonth)
+                  ? buildMonthHead(context, _width, double.infinity, _currentMonth)
                   : defaultBuildMonthHead(context, _currentMonth),
             ));
           }
@@ -172,7 +184,7 @@ class MonthWidget<T> extends StatelessWidget {
                       height: _height,
                       child: showBackground
                           ? (buildMonthBackground != null
-                              ? buildMonthBackground(context, _currentMonth)
+                              ? buildMonthBackground(context, _width, _height, _currentMonth)
                               : defaultBuildMonthBackground(context, _currentMonth))
                           : Container(),
                     ),
@@ -188,27 +200,33 @@ class MonthWidget<T> extends StatelessWidget {
                                 ? defaultBuildDayItem<T>(
                                     context,
                                     dayTime: _time,
+                                    weekColor: weekColor,
+                                    weekendColor: weekendColor,
                                     enableSelect: inMonth,
                                     height: _dayHeight,
                                     width: _dayWidth,
                                     hasMark: _option.marks.containsKey(_time),
                                     markData: _option.marks[_time],
                                     buildMark: buildMark,
-                                    onDaySelected: (day, data) => _onDaySelected(day, data, _option, monthController),
+                                    onDaySelected: (day, data) => _onDaySelected(day, data, _option, _monthController),
                                     isSelected: _option.currentDay == _time,
                                     isContinuous: _isContinuous(_time, _option),
                                   )
-                                : buildDayItem(context,
-                                    height: _height,
-                                    width: _width,
+                                : buildDayItem(
+                                    context,
                                     dayTime: _time,
+                                    weekColor: weekColor,
+                                    weekendColor: weekendColor,
                                     enableSelect: inMonth,
+                                    height: _dayHeight,
+                                    width: _dayWidth,
                                     hasMark: _option.marks.containsKey(_time),
                                     markData: _option.marks[_time],
+                                    buildMark: buildMark,
+                                    onDaySelected: (day, data) => _onDaySelected(day, data, _option, _monthController),
                                     isSelected: _option.currentDay == _time,
                                     isContinuous: _isContinuous(_time, _option),
-                                    buildMark: buildMark,
-                                    onDaySelected: (day, data) => _onDaySelected(day, data, _option, monthController));
+                                  );
                           }).toList()),
                     )
                   ],

@@ -3,28 +3,23 @@ import 'package:mini_calendar/mini_calendar.dart';
 
 import 'model/date_day.dart';
 
-TextStyle weekDayStyle = TextStyle(fontSize: 12, color: Colors.blue);
-TextStyle disableWeekDayStyle = TextStyle(fontSize: 12, color: Colors.grey[400]);
-TextStyle weekendDayStyle = TextStyle(fontSize: 12, color: Colors.pink);
-TextStyle disableWeekendDayStyle = TextStyle(fontSize: 12, color: Colors.pink[100]);
-
 /// 默认构建星期标题
 Widget defaultBuildWeekHead(BuildContext context, int week) {
   switch (week) {
     case 1:
-      return Text('一', style: weekDayStyle.copyWith(color: Colors.black87));
+      return Text('一', style: TextStyle(fontSize: 12, color: Colors.black87));
     case 2:
-      return Text('二', style: weekDayStyle.copyWith(color: Colors.black87));
+      return Text('二', style: TextStyle(fontSize: 12, color: Colors.black87));
     case 3:
-      return Text('三', style: weekDayStyle.copyWith(color: Colors.black87));
+      return Text('三', style: TextStyle(fontSize: 12, color: Colors.black87));
     case 4:
-      return Text('四', style: weekDayStyle.copyWith(color: Colors.black87));
+      return Text('四', style: TextStyle(fontSize: 12, color: Colors.black87));
     case 5:
-      return Text('五', style: weekDayStyle.copyWith(color: Colors.black87));
+      return Text('五', style: TextStyle(fontSize: 12, color: Colors.black87));
     case 6:
-      return Text('六', style: weekendDayStyle);
+      return Text('六', style: TextStyle(fontSize: 12, color: Colors.pink));
     case 0:
-      return Text('日', style: weekendDayStyle);
+      return Text('日', style: TextStyle(fontSize: 12, color: Colors.pink));
   }
   return Container();
 }
@@ -70,6 +65,8 @@ Widget defaultBuildMonthHead(BuildContext context, DateMonth month, {VoidCallbac
 /// [enableSelect] - 是否可选 <br/>
 /// [hasMark] - 是否含有标记 <br/>
 /// [markData] - 标记内容 <br/>
+/// [weekColor] - 工作日颜色 <br/>
+/// [weekendColor] - 周末颜色 <br/>
 /// [isSelected] - 是否被单选 <br/>
 /// [isContinuous] - 是否被连选 <br/>
 /// [buildMark] - 自定义构建mark <br/>
@@ -81,6 +78,8 @@ Widget defaultBuildDayItem<T>(BuildContext context,
     double height,
     double width,
     T markData,
+    Color weekColor = Colors.blue,
+    Color weekendColor = Colors.pink,
     bool isSelected,
     bool isContinuous,
     BuildMark<T> buildMark,
@@ -89,12 +88,11 @@ Widget defaultBuildDayItem<T>(BuildContext context,
   Color _dayColor = Colors.transparent;
   TextStyle _style;
   if (!enableSelect) {
-    _style = dayTime.weekday > 5 ? disableWeekendDayStyle : disableWeekDayStyle;
+    _style = TextStyle(fontSize: 12, color: dayTime.weekday > 5 ? weekendColor.withAlpha(80) : weekColor.withAlpha(80));
   } else {
-    _style = dayTime.weekday > 5 ? weekendDayStyle : weekDayStyle;
+    _style = TextStyle(fontSize: 12, color: dayTime.weekday > 5 ? weekendColor : weekColor);
   }
   if (isSelected) {
-//    _sideColor = Colors.blue.withAlpha(200);
     _dayColor = Colors.blue.withAlpha(200);
     _style = _style.copyWith(color: Colors.white);
   }
@@ -152,9 +150,9 @@ typedef BuildWeekHead = Widget Function(BuildContext context, int week);
 /// 构建月相关控件  <br/>
 /// [context] - 上下文  <br/>
 /// [month] - 所在月份
-typedef BuildWithMonth = Widget Function(BuildContext context, DateMonth month);
+typedef BuildWithMonth = Widget Function(BuildContext context, double width, double height, DateMonth month);
 
-/// 构建日相关控件  <br/>
+/// 默认构建日视图  <br/>
 /// [context] - 上下文  <br/>
 /// [height] - 控件高  <br/>
 /// [width] - 控件宽  <br/>
@@ -162,17 +160,21 @@ typedef BuildWithMonth = Widget Function(BuildContext context, DateMonth month);
 /// [enableSelect] - 是否可选 <br/>
 /// [hasMark] - 是否含有标记 <br/>
 /// [markData] - 标记内容 <br/>
+/// [weekColor] - 工作日颜色 <br/>
+/// [weekendColor] - 周末颜色 <br/>
 /// [isSelected] - 是否被单选 <br/>
 /// [isContinuous] - 是否被连选 <br/>
 /// [buildMark] - 自定义构建mark <br/>
 /// [onDaySelected] - 选择事件 <br/>
 typedef BuildWithDay<T> = Widget Function(BuildContext context,
-    {double height,
-    double width,
-    DateDay dayTime,
+    {DateDay dayTime,
     bool enableSelect,
     bool hasMark,
+    double height,
+    double width,
     T markData,
+    Color weekColor,
+    Color weekendColor,
     bool isSelected,
     bool isContinuous,
     BuildMark<T> buildMark,
