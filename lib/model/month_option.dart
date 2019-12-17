@@ -6,37 +6,37 @@ class MonthOption<T> {
   DateDay _currentDay;
 
   DateDay get currentDay => _currentDay;
-  set currentDay(DateDay value) => _currentDay = value;
+  void setCurrentDay(DateDay value) => _currentDay = value;
 
   /// 所在月份
   DateMonth _currentMonth;
   DateMonth get currentMonth => _currentMonth;
-  set currentMonth(DateMonth value) => _currentMonth = value;
+  void setCurrentMonth(DateMonth value) => _currentMonth = value;
 
   /// 第一列是星期几（1，2，3，4，5，6，7）
   int _firstWeek;
   int get firstWeek => _firstWeek;
-  set firstWeek(int value) => _firstWeek = value;
+  void setFirstWeek(int value) => _firstWeek = value;
 
   /// 第一个选择的时间
   DateDay _firstSelectDay;
   DateDay get firstSelectDay => _firstSelectDay;
-  set firstSelectDay(DateDay value) => _firstSelectDay = value;
+  void setFirstSelectDay(DateDay value) => _firstSelectDay = value;
 
   /// 第二个选择的时间
   DateDay _secondSelectDay;
   DateDay get secondSelectDay => _secondSelectDay;
-  set secondSelectDay(DateDay value) => _secondSelectDay = value;
+  void setSecondSelectDay(DateDay value) => _secondSelectDay = value;
 
   /// 是否开启连续选择
   bool _enableContinuous;
   bool get enableContinuous => _enableContinuous;
-  set enableContinuous(bool value) => _enableContinuous = value;
+  void setEnableContinuous(bool value) => _enableContinuous = value;
 
   /// 标记
   Map<DateDay, T> _marks;
   Map<DateDay, T> get marks => _marks;
-  set marks(Map<DateDay, T> value) => _marks = value;
+  void setMarks(Map<DateDay, T> value) => _marks = value;
 
   void addMark(DateDay day, T data) => _marks[day] = data;
 
@@ -49,12 +49,12 @@ class MonthOption<T> {
     bool enableContinuous = false,
     Map<DateDay, T> marks = const {},
   }) {
-    this.currentDay = currentDay ?? DateDay.now();
-    this.currentMonth = currentMonth ?? DateMonth(this.currentDay.year, this.currentDay.month);
-    this.firstWeek = firstWeek;
-    this.enableContinuous = enableContinuous;
-    this.firstSelectDay = firstSelectDay;
-    this.secondSelectDay = secondSelectDay;
+    this._currentDay = currentDay;
+    this._currentMonth = currentMonth ??(this.currentDay==null?DateMonth.now():DateMonth(this.currentDay.year, this.currentDay.month)) ;
+    this._firstWeek = firstWeek;
+    this._enableContinuous = enableContinuous;
+    this._firstSelectDay = firstSelectDay;
+    this._secondSelectDay = secondSelectDay;
     this._marks = marks;
   }
 
