@@ -41,10 +41,10 @@ class DateMonth {
   int get weekday => time.weekday;
 
   @override
-  String toString() {
+  String toString({String yearSuffix = '-',String monthSuffix = ''}) {
     String y = fourDigits(year);
     String m = twoDigits(month);
-    return "$y-$m";
+    return "$y$yearSuffix$m$monthSuffix";
   }
 
   @override
@@ -57,6 +57,8 @@ class DateMonth {
   bool operator >=(Object other) => other is DateMonth && runtimeType == other.runtimeType && num >= other.num;
 
   bool operator <=(Object other) => other is DateMonth && runtimeType == other.runtimeType && num <= other.num;
+
+  bool contain(DateDay day) => day.year == this._year && day.month == this._month;
 
   @override
   int get hashCode => num.hashCode;
