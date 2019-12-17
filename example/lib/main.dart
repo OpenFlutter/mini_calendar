@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'calendar_view.dart';
-import 'month_page_view_demo.dart';
+import 'page/calendar_view.dart';
+import 'page/month_page_view_demo.dart';
 
 void main() => runApp(MyApp());
 
