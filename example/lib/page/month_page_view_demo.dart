@@ -40,6 +40,7 @@ class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
           children: <Widget>[
             MonthPageView(
               padding: EdgeInsets.all(1),
+              scrollDirection: Axis.horizontal,
               option: MonthOption(
                 enableContinuous: _checked,
                 marks: {

@@ -1,117 +1,204 @@
 # mini_calendar
 
+[![](https://img.shields.io/pub/v/mini_calendar#align=left&display=inline&height=20&originHeight=20&originWidth=76&status=done&style=none&width=76)](https://pub.flutter-io.cn/packages/mini_calendar)<br />
+
 Date component developed with Flutter, plans to support display, swipe left and right, add date mark, radio, display week, etc.
 
 使用Flutter开发的日期组件，计划支持显示，左右滑动，添加日期标记，单选，显示星期等功能。
 
+- [更新记录](CHANGELOG)
 
 <a name="sVRq8"></a>
-## 开发日记
+## 
 <a name="ria82"></a>
 ### 2019-12-09 记
 > 主要想实现的内容
 
 ![](https://cdn.nlark.com/yuque/0/2019/svg/179485/1576425808448-b294ad6f-a230-4a01-bfc3-6e3196ed22e1.svg)
-<a name="WzUDX"></a>
-### 2019-12-10 记
-> 整体上，从简单的显示开始，然后再加入交互和控制功能。第一版显示方面，先考虑实现最常用的月视图。
 
-<a name="ahzoY"></a>
-#### 月视图实现
-> 日历的月视图，是非常规则的表格形式。所以就考虑用GridView来实现。
-
-1. 写两个类，来管理月和日，并重构了比较运算符。
-
-```dart
-/// 月
-class DateMonth {
-  int year;
-  int month;
-  int maxDays; 
-	// ……
-}
-
-/// 日
-class DateDay extends DateMonth{
-  int day;
-  // ……
-}
-
-
-```
-
-2. 在写月视图时，需要考虑开始星期所在位置，非当月日期的显示情况等。这里的关键在于计算位置。
+<a name="mini_calendar"></a>
+# 
 
 
 
-<a name="mXiJH"></a>
-### 2019-12-12 记
-> 由于GridView在控制高度上面有所不便（可能有好多方法，我没有尝试到），我换成了Warp的方式来实现。
 
-<a name="wa1Sw"></a>
-#### 切换月份
-> 常见的月份切换方式，有类似小米的左右滑动切换，也有上下滑动切换。第一个想到的就是用PageView来实现该功能。
+<a name="3b7f2fa1"></a>
+## 
 
-问题：如何实现无限切换？
-
-1. 构建前，全部加载完成，然后就可以随意切换了。否决，不够灵活，性能开销大。
-1. 动态分配，初始化3页，然后监听滑动，动态首尾动态添加对应月份。可以考虑，但跨度大了，数据会不断膨胀，可以再优化下。
-1. 动态分配，动态移除，设定缓存大小，超出缓存范围的将被移除。可以，那就按照这个方案进行！
-
-问题：如何实现动态分配？
-> 原理如下，先动态分配数据，然后跳转到指定页面。若考虑缓存机制，可在remove前加判断即可。
-
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576167627925-f9a55fd4-bcd9-4c12-b808-79bb74f6eab8.png#align=left&display=inline&height=281&name=image.png&originHeight=281&originWidth=720&size=28161&status=done&style=none&width=720)
-
-> 下面是核心代码
-
+<a name="3b61c966"></a>
+## 基本使用
 
 ```dart
-List<int> pages = [-1, 0, 1];
-PageController _controller = PageController(initialPage: 1);
-_controller.addListener(() {
-  double position = _controller.position.pixels;
-  if (position == 0) {
-    pages.insert(0, pages.first - 1);
-    pages.remove(pages.last);
-    _controller.jumpToPage(1);
-  } else if (position == _controller.position.maxScrollExtent) {
-    pages.add(pages.last + 1);
-    pages.remove(pages.first);
-    _controller.jumpToPage(1);
-  } else {
-    return;
-  }
-  setState((){});
-});
+dependencies:
+  mini_calendar: ^0.2.1
 ```
-有了上面的基础，切换月份，也就变成一件简单的事情了。
-<a name="apfsx"></a>
-### 2019-12-14 记
-<a name="7iLxK"></a>
-#### 实现简单日历
-![日历.gif](https://cdn.nlark.com/yuque/0/2019/gif/179485/1576424449186-d5ef3e7f-099d-4c7c-8db1-c21e5c88fde6.gif#align=left&display=inline&height=888&name=%E6%97%A5%E5%8E%86.gif&originHeight=973&originWidth=548&size=529806&status=done&style=shadow&width=500)
-<a name="mfYMK"></a>
-#### 连选实现
-> 主要是处理日期选中后的赋值问题。
 
-当下的处理逻辑有很多，我这里采用的是以下逻辑：
+```dart
+import 'package:mini_calendar/mini_calendar.dart';
+```
 
-1. 单选和连选只同时支持一种（理论上可以同时支持，后续可以再优化实现）
-1. 第一次选择日期，给到开始日期上。
-1. 第二次选择日期，将小日期给到开始日期，大日期给到结束日期上。
-1. 第三次选择日期，当落在小、大之间时，更换大日期。当不落在之间时，小、大日期全部清空。相当于取消选择。
 
-<a name="IppLr"></a>
-### 2019-12-15 记
-<a name="Z2pEK"></a>
-#### 实现可单选、连选、左右滑动日历控件
+<a name="e752e1c0"></a>
+### 月视图使用
 
-- 月视图添加背景
-- 可自定义起始星期
-- 可自定义实现周头部控件
-- 可自定义实现标记组件
-- 利用[切换月份](#%E5%88%87%E6%8D%A2%E6%9C%88%E4%BB%BD)和[连选实现](#%E8%BF%9E%E9%80%89%E5%AE%9E%E7%8E%B0)完成左右切换的可单选、连选的日期控件
+- 默认显示当月
 
-   ![单选.gif](https://cdn.nlark.com/yuque/0/2019/gif/179485/1576424343540-a574f9fd-7739-4b65-aa48-bab9896e679a.gif#align=left&display=inline&height=614&name=%E5%8D%95%E9%80%89.gif&originHeight=973&originWidth=548&size=705846&status=done&style=shadow&width=346)   ![多选.gif](https://cdn.nlark.com/yuque/0/2019/gif/179485/1576424344370-f2debb5d-776f-416a-9410-b5090a54d81a.gif#align=left&display=inline&height=614&name=%E5%A4%9A%E9%80%89.gif&originHeight=973&originWidth=548&size=597980&status=done&style=shadow&width=346)
+```dart
+MonthWidget();
+```
+
+
+- 可通过控制器参数来控制显示的月份以及选择的日期
+
+```dart
+MonthWidget(
+  controller: MonthController.init(
+      MonthOption<String>(
+        currentDay: DateDay.now().copyWith(month: index + 1, day: Random().nextInt(27) + 1),
+        currentMonth: DateMonth.now().copyWith(month: index + 1),
+      )
+  ),
+)
+```
+
+
+- 支持显示连选
+
+```
+MonthWidget(
+  controller: MonthController.init(MonthOption(
+    currentMonth: DateMonth.now().copyWith(month: 1),
+    enableContinuous: true,
+    firstSelectDay: DateDay.now().copyWith(month: 1, day: 8),
+    secondSelectDay: DateDay.now().copyWith(month: 1, day: 18),
+  )),
+)
+```
+
+
+- 支持添加标记
+- ……
+
+![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584797091-8f86bb0c-b470-49c7-85dd-00f68febca94.png#align=left&display=inline&height=500&name=image.png&originHeight=500&originWidth=551&size=38212&status=done&style=shadow&width=551)
+
+
+<br />滑动日历组件<br />
+
+> 控制器需要创建后获取 `onCreated`
+
+
+<a name="d19f2c10-1"></a>
+#### 基本使用
+
+```dart
+MonthPageView(
+  padding: EdgeInsets.all(1),
+  scrollDirection: Axis.horizontal,// 水平滑动或者竖直滑动
+  option: MonthOption(
+    enableContinuous: true,// 单选、连选控制
+    marks: { 
+      DateDay.now().copyWith(day: 1): '111',
+      DateDay.now().copyWith(day: 5): '222',
+      DateDay.now().copyWith(day: 13): '333',
+      DateDay.now().copyWith(day: 19): '444',
+      DateDay.now().copyWith(day: 26): '444',
+    },
+  ),
+  showWeekHead: true, // 显示星期头部
+  onContinuousSelectListen: (firstDay, endFay) {
+  },// 连选回调
+  onMonthChange: (month) {
+  },// 月份更改回调
+  onDaySelected: (day, data) {
+  },// 日期选中会迪欧啊
+  onCreated: (controller){
+  }, // 控制器回调
+),
+```
+
+<a name="6d61a6d6"></a>
+#### 控制器主动方法
+
+- 更新
+
+```dart
+MonthPageController#reLoad();
+```
+
+- 关闭
+
+```dart
+MonthPageController#dispose();
+```
+
+- 下一月
+
+```dart
+MonthPageController#next();
+```
+
+- 上一月
+
+```dart
+MonthPageController#last();
+```
+![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584899088-9f340da5-37fc-41e8-a584-63af99f115dc.png#align=left&display=inline&height=983&name=image.png&originHeight=983&originWidth=549&size=76289&status=done&style=shadow&width=549)
+<a name="a4c94474"></a>
+### 高级功能
+
+> 自定义
+
+
+- 自定义月视图背景
+
+```dart
+buildMonthBackground: (_, width, height, month) => Image.network(
+    'https://ssyerv1.oss-cn-hangzhou.aliyuncs.com/picture/b0c57bd90abd49d59920924010ab66a9.png!sswm',
+    height: height,
+    width: width,
+    fit: BoxFit.cover,
+    ),
+```
+
+- 自定义月视图头部
+
+```dart
+buildMonthHead: (ctx, width, height, month) => Container(
+padding: EdgeInsets.all(5),
+child: Row(
+  mainAxisAlignment: MainAxisAlignment.start,
+  children: <Widget>[
+    Text(
+      "${month.year}年",
+      style: TextStyle(fontSize: 40, color: Colors.white),
+    ),
+    Container(
+      margin: EdgeInsets.only(left: 5, right: 5),
+      width: 1,
+      color: Colors.yellow,
+      height: 50,
+    ),
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          "${month.month}月",
+          style: TextStyle(fontSize: 18, color: Colors.orange),
+        ),
+        Text("这是一个自定义的月头部"),
+      ],
+    )
+  ],
+),
+),
+```
+
+- 自定义星期头部
+- 自定义日视图
+- ……
+
+![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584839283-c713cc7e-c932-4d7f-8033-888a7b7505f2.png#align=left&display=inline&height=568&name=image.png&originHeight=568&originWidth=555&size=402088&status=done&style=shadow&width=555)![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584857241-5a4a8bb1-fe4b-4fd2-b4c6-be03b68ddefc.png#align=left&display=inline&height=586&name=image.png&originHeight=586&originWidth=551&size=133458&status=done&style=shadow&width=551)
+
+
+> 更多功能请看demo
 

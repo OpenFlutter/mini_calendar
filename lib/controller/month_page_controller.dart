@@ -124,7 +124,9 @@ class MonthPageController<T> {
     _pageController?.dispose();
   }
 
+  /// 上一月
   void last() => _pageController?.animateToPage(--_position, duration: Duration(milliseconds: 200), curve: Curves.ease);
 
+  /// 下一月
   void next() => _pageController?.animateToPage(++_position, duration: Duration(milliseconds: 200), curve: Curves.ease);
 }
