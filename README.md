@@ -1,4 +1,4 @@
-# mini_calendar
+## mini_calendar
 
 [![](https://img.shields.io/pub/v/mini_calendar#align=left&display=inline&height=20&originHeight=20&originWidth=76&status=done&style=none&width=76)](https://pub.flutter-io.cn/packages/mini_calendar)<br />
 
@@ -6,27 +6,14 @@ Date component developed with Flutter, plans to support display, swipe left and 
 
 使用Flutter开发的日期组件，计划支持显示，左右滑动，添加日期标记，单选，显示星期等功能。
 
-- [更新记录](CHANGELOG)
+- [更新记录](CHANGELOG.md)
 
-<a name="sVRq8"></a>
-## 
-<a name="ria82"></a>
-### 2019-12-09 记
-> 主要想实现的内容
+
+### 主要想实现的内容
 
 ![](https://cdn.nlark.com/yuque/0/2019/svg/179485/1576425808448-b294ad6f-a230-4a01-bfc3-6e3196ed22e1.svg)
 
-<a name="mini_calendar"></a>
-# 
-
-
-
-
-<a name="3b7f2fa1"></a>
-## 
-
-<a name="3b61c966"></a>
-## 基本使用
+### 基本使用
 
 ```dart
 dependencies:
@@ -39,7 +26,7 @@ import 'package:mini_calendar/mini_calendar.dart';
 
 
 <a name="e752e1c0"></a>
-### 月视图使用
+### 月视图
 
 - 默认显示当月
 
@@ -79,16 +66,12 @@ MonthWidget(
 - 支持添加标记
 - ……
 
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584797091-8f86bb0c-b470-49c7-85dd-00f68febca94.png#align=left&display=inline&height=500&name=image.png&originHeight=500&originWidth=551&size=38212&status=done&style=shadow&width=551)
+![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584797091-8f86bb0c-b470-49c7-85dd-00f68febca94.png)
 
 
-<br />滑动日历组件<br />
+### 滑动日历组件
 
 > 控制器需要创建后获取 `onCreated`
-
-
-<a name="d19f2c10-1"></a>
-#### 基本使用
 
 ```dart
 MonthPageView(
@@ -117,7 +100,7 @@ MonthPageView(
 ```
 
 <a name="6d61a6d6"></a>
-#### 控制器主动方法
+### 控制器主动方法
 
 - 更新
 
@@ -142,7 +125,7 @@ MonthPageController#next();
 ```dart
 MonthPageController#last();
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584899088-9f340da5-37fc-41e8-a584-63af99f115dc.png#align=left&display=inline&height=983&name=image.png&originHeight=983&originWidth=549&size=76289&status=done&style=shadow&width=549)
+![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584899088-9f340da5-37fc-41e8-a584-63af99f115dc.png)
 <a name="a4c94474"></a>
 ### 高级功能
 
@@ -197,7 +180,8 @@ child: Row(
 - 自定义日视图
 - ……
 
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584839283-c713cc7e-c932-4d7f-8033-888a7b7505f2.png#align=left&display=inline&height=568&name=image.png&originHeight=568&originWidth=555&size=402088&status=done&style=shadow&width=555)![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584857241-5a4a8bb1-fe4b-4fd2-b4c6-be03b68ddefc.png#align=left&display=inline&height=586&name=image.png&originHeight=586&originWidth=551&size=133458&status=done&style=shadow&width=551)
+![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584839283-c713cc7e-c932-4d7f-8033-888a7b7505f2.png)
+![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584857241-5a4a8bb1-fe4b-4fd2-b4c6-be03b68ddefc.png)
 
 
 > 更多功能请看demo
