@@ -1,6 +1,11 @@
 import 'date_day.dart';
 import 'date_month.dart';
 
+///
+/// 月视图控制器参数 <br/>
+///
+/// Create by JsonYe<597232387@qq.com> on 2019/12
+///
 class MonthOption<T> {
   /// 当前选中日期
   DateDay _currentDay;
@@ -37,9 +42,26 @@ class MonthOption<T> {
   Map<DateDay, T> _marks;
   Map<DateDay, T> get marks => _marks;
   void setMarks(Map<DateDay, T> value) => _marks = value;
-
   void addMark(DateDay day, T data) => _marks[day] = data;
 
+  /// 显示的最大日期
+  DateDay _maxDay;
+  DateDay get maxDay => _maxDay;
+
+  /// 显示的最小日期
+  DateDay _minDay;
+  DateDay get minDay => _minDay;
+
+  /// 初始化 <br/>
+  /// [currentDay] - 选择的日期 <br/>
+  /// [currentMonth] - 当前月份 <br/>
+  /// [firstWeek] - 第一列显示的星期 [1,7] <br/>
+  /// [enableContinuous] - 是否支持连选 <br/>
+  /// [firstSelectDay] - 连选第一个日期<br/>
+  /// [secondSelectDay] - 连选第二个日期<br/>
+  /// [marks] - 标记<br/>
+  /// [minDay] - 可选的最小日期<br/>
+  /// [maxDay] - 可选的最大日期<br/>
   MonthOption({
     DateDay currentDay,
     DateMonth currentMonth,
@@ -48,16 +70,31 @@ class MonthOption<T> {
     DateDay secondSelectDay,
     bool enableContinuous = false,
     Map<DateDay, T> marks = const {},
+    DateDay minDay,
+    DateDay maxDay,
   }) {
     this._currentDay = currentDay;
-    this._currentMonth = currentMonth ??(this.currentDay==null?DateMonth.now():DateMonth(this.currentDay.year, this.currentDay.month)) ;
+    this._currentMonth = currentMonth ??
+        (this.currentDay == null ? DateMonth.now() : DateMonth(this.currentDay.year, this.currentDay.month));
     this._firstWeek = firstWeek;
     this._enableContinuous = enableContinuous;
     this._firstSelectDay = firstSelectDay;
     this._secondSelectDay = secondSelectDay;
     this._marks = marks;
+    this._minDay = minDay;
+    this._maxDay = maxDay;
   }
 
+  /// copy对象 <br/>
+  /// [currentDay] - 选择的日期 <br/>
+  /// [currentMonth] - 当前月份 <br/>
+  /// [firstWeek] - 第一列显示的星期 [1,7] <br/>
+  /// [enableContinuous] - 是否支持连选 <br/>
+  /// [firstSelectDay] - 连选第一个日期<br/>
+  /// [secondSelectDay] - 连选第二个日期<br/>
+  /// [marks] - 标记<br/>
+  /// [minDay] - 可选的最小日期<br/>
+  /// [maxDay] - 可选的最大日期<br/>
   MonthOption<T> copyWith({
     DateDay currentDay,
     DateMonth currentMonth,
@@ -66,6 +103,8 @@ class MonthOption<T> {
     DateDay secondSelectDay,
     bool enableContinuous,
     Map<DateDay, T> marks,
+    DateDay minDay,
+    DateDay maxDay,
   }) {
     return MonthOption<T>(
       currentDay: currentDay ?? this.currentDay,
@@ -75,6 +114,8 @@ class MonthOption<T> {
       secondSelectDay: secondSelectDay ?? this.secondSelectDay,
       enableContinuous: enableContinuous ?? this.enableContinuous,
       marks: marks ?? this.marks,
+      minDay: minDay ?? this.minDay,
+      maxDay: maxDay ?? this.maxDay,
     );
   }
 }

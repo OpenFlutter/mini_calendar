@@ -5,9 +5,11 @@ import '../model/month_option.dart';
 import '../model/date_day.dart';
 import '../handle.dart';
 
+
 ///
-/// 月视图
+/// 月视图 <br/>
 ///
+/// Create by JsonYe<597232387@qq.com> on 2019/12
 ///
 class MonthWidget<T> extends StatelessWidget {
   /// 控制器
@@ -195,14 +197,16 @@ class MonthWidget<T> extends StatelessWidget {
                           spacing: SPACING,
                           runSpacing: RUN_SPACING,
                           children: _days.map((_time) {
-                            bool inMonth = _currentMonth.contain(_time);
+                            bool enableSelect = _enableEnableSelect(_time,_currentMonth, _option);
+                            bool isContinuous = _isContinuous(_time, _option);
+                            print("$_time MinDay：${_option.minDay} MaxDay：${_option.maxDay} 编辑：$enableSelect 连选：$isContinuous");
                             return buildDayItem == null
                                 ? defaultBuildDayItem<T>(
                                     context,
                                     dayTime: _time,
                                     weekColor: weekColor,
                                     weekendColor: weekendColor,
-                                    enableSelect: inMonth,
+                                    enableSelect: enableSelect,
                                     height: _dayHeight,
                                     width: _dayWidth,
                                     hasMark: _option.marks.containsKey(_time),
@@ -210,14 +214,14 @@ class MonthWidget<T> extends StatelessWidget {
                                     buildMark: buildMark,
                                     onDaySelected: (day, data) => _onDaySelected(day, data, _option, _monthController),
                                     isSelected: _option.currentDay == _time,
-                                    isContinuous: _isContinuous(_time, _option),
+                                    isContinuous: isContinuous,
                                   )
                                 : buildDayItem(
                                     context,
                                     dayTime: _time,
                                     weekColor: weekColor,
                                     weekendColor: weekendColor,
-                                    enableSelect: inMonth,
+                                    enableSelect: enableSelect,
                                     height: _dayHeight,
                                     width: _dayWidth,
                                     hasMark: _option.marks.containsKey(_time),
@@ -225,7 +229,7 @@ class MonthWidget<T> extends StatelessWidget {
                                     buildMark: buildMark,
                                     onDaySelected: (day, data) => _onDaySelected(day, data, _option, _monthController),
                                     isSelected: _option.currentDay == _time,
-                                    isContinuous: _isContinuous(_time, _option),
+                                    isContinuous: isContinuous,
                                   );
                           }).toList()),
                     )
@@ -272,6 +276,12 @@ class MonthWidget<T> extends StatelessWidget {
         onDaySelected(day.copyWith(), data);
       }
     }
+  }
+
+  bool _enableEnableSelect(DateDay day,DateMonth month, MonthOption<T> option) {
+    return day.inMonth(month) &&
+        ((option.minDay != null && option.minDay <= day) || option.minDay == null) &&
+        ((option.maxDay != null && option.maxDay >= day) || option.maxDay == null);
   }
 
   bool _isContinuous(DateDay day, MonthOption<T> option) =>

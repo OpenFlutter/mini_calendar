@@ -11,27 +11,25 @@ Date component developed with Flutter, plans to support display, swipe left and 
 
 ### 主要想实现的内容
 
-![](https://cdn.nlark.com/yuque/0/2019/svg/179485/1576425808448-b294ad6f-a230-4a01-bfc3-6e3196ed22e1.svg)
+![](https://cdn.nlark.com/yuque/0/2019/svg/179485/1576644701079-fbfbc011-8072-49f8-bc0b-5d38f3b5ea42.svg)
 
-### 基本使用
-
+## 使用
+<a name="b3om7"></a>
+### 引入库
 ```dart
 dependencies:
   mini_calendar: ^0.2.1
 ```
-
+<a name="M36S5"></a>
+### 导包
 ```dart
 import 'package:mini_calendar/mini_calendar.dart';
 ```
 
-
 <a name="e752e1c0"></a>
-### 月视图
-
-- 默认显示当月
-
+### 月视图(MonthWidget)
 ```dart
-MonthWidget();
+MonthWidget();// 默认当月
 ```
 
 
@@ -69,7 +67,9 @@ MonthWidget(
 ![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584797091-8f86bb0c-b470-49c7-85dd-00f68febca94.png)
 
 
-### 滑动日历组件
+
+<a name="PzRDh"></a>
+### 滚动日历(MonthPageView)
 
 > 控制器需要创建后获取 `onCreated`
 
@@ -99,41 +99,56 @@ MonthPageView(
 ),
 ```
 
-<a name="6d61a6d6"></a>
-### 控制器主动方法
-
-- 更新
-
+<a name="BuYna"></a>
+### 控制器
+<a name="7mWMM"></a>
+#### 参数初始化
 ```dart
-MonthPageController#reLoad();
+MonthOption({
+    DateDay currentDay,//选择的日期
+    DateMonth currentMonth,//当前月份
+    int firstWeek = 7,//第一列显示的星期 [1,7]
+    DateDay firstSelectDay,//连选第一个日期
+    DateDay secondSelectDay,//连选第二个日期
+    bool enableContinuous = false,//是否支持连选
+    Map<DateDay, T> marks = const {},//标记
+    DateDay minDay,//可选的最小日期
+    DateDay maxDay,//可选的最大日期
+  });
 ```
-
-- 关闭
-
+<a name="Ym5vA"></a>
+#### 注销
 ```dart
 MonthPageController#dispose();
 ```
-
-- 下一月
-
+<a name="cmGVq"></a>
+#### 更新
+```dart
+MonthPageController#reLoad();
+```
+<a name="lWF7m"></a>
+#### 下一月
 ```dart
 MonthPageController#next();
 ```
-
-- 上一月
-
+<a name="PqzYu"></a>
+#### 上一月
 ```dart
 MonthPageController#last();
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584899088-9f340da5-37fc-41e8-a584-63af99f115dc.png)
-<a name="a4c94474"></a>
-### 高级功能
+<a name="cVKdI"></a>
+#### 跳转到指定月份
+```dart
+MonthPageController#goto(DateMonth month);
+```
 
+<br />![month_page_view.gif](https://cdn.nlark.com/yuque/0/2019/gif/179485/1576645231441-773167cc-b54f-4c59-9c1d-e4ecbfc63db5.gif)
+<a name="j4E58"></a>
+### 高级功能
 > 自定义
 
-
-- 自定义月视图背景
-
+<a name="U2wZy"></a>
+#### 自定义月视图背景
 ```dart
 buildMonthBackground: (_, width, height, month) => Image.network(
     'https://ssyerv1.oss-cn-hangzhou.aliyuncs.com/picture/b0c57bd90abd49d59920924010ab66a9.png!sswm',
@@ -143,7 +158,8 @@ buildMonthBackground: (_, width, height, month) => Image.network(
     ),
 ```
 
-- 自定义月视图头部
+<a name="jMbk4"></a>
+#### 自定义月视图头部
 
 ```dart
 buildMonthHead: (ctx, width, height, month) => Container(
@@ -180,9 +196,12 @@ child: Row(
 - 自定义日视图
 - ……
 
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584839283-c713cc7e-c932-4d7f-8033-888a7b7505f2.png)
-![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584857241-5a4a8bb1-fe4b-4fd2-b4c6-be03b68ddefc.png)
+|![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584839283-c713cc7e-c932-4d7f-8033-888a7b7505f2.png)|![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584857241-5a4a8bb1-fe4b-4fd2-b4c6-be03b68ddefc.png)|
+| :---: | :---: |
 
 
-> 更多功能请看demo
+> 更多功能clone项目，运行demo
 
+### 开源不易，老铁们多多支持！
+| ![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576646832207-e84c24f8-2e66-4937-af4d-b406f88c3974.png#align=left&display=inline&height=436&name=image.png&originHeight=337&originWidth=217&size=83049&status=done&style=none&width=281) | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576646720153-ad4673cb-3595-4468-9b60-75725e4322e7.png#align=left&display=inline&height=435&name=image.png&originHeight=298&originWidth=217&size=80120&status=done&style=none&width=317) |
+| :---: | :---: |
