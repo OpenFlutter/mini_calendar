@@ -29,7 +29,7 @@ class HomeWidget extends StatelessWidget {
           _buildItem(context, '显示日历', CalendarViewPage()),
           _buildItem(context, '自定义日历示例', CalendarCustomizePage()),
           Divider(),
-          _buildItem(context, '滑动日历', MonthPageViewDemo()),
+          _buildItem(context, '翻页日历', MonthPageViewDemo()),
         ],
       ),
     );

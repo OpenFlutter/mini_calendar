@@ -17,7 +17,7 @@ class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('滑动日历'),
+        title: Text('翻页日历'),
         centerTitle: true,
         actions: <Widget>[
           Switch(
@@ -50,6 +50,8 @@ class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
                   DateDay.now().copyWith(day: 19): '444',
                   DateDay.now().copyWith(day: 26): '444',
                 },
+                minDay: DateDay.now().copyWith(month: 8, day: 13),
+                maxDay: DateDay.now().copyWith(month: 12, day: 21),
               ),
               showWeekHead: true,
               onContinuousSelectListen: (firstDay, endFay) {
@@ -68,11 +70,29 @@ class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
               },
               onCreated: (controller) => _controller = controller,
             ),
-            Container(child: Text('''当前月份：${_month.toString(yearSuffix: '年', monthSuffix: '月')}
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 3,
+              children: List.generate(
+                12,
+                (index) => MaterialButton(
+                  shape: RoundedRectangleBorder(side: BorderSide(width: 0.3, color: Colors.pinkAccent)),
+                  minWidth: 20,
+                  padding: EdgeInsets.zero,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  child: Text('${index + 1}'),
+                  onPressed: () => _controller?.goto(DateMonth.now().copyWith(month: index + 1)),
+                ),
+              )..insert(0, Text('跳转月份：')),
+            ),
+            Container(
+              child: Text('''当前月份：${_month.toString(yearSuffix: '年', monthSuffix: '月')}
+可选范围：${DateDay.now().copyWith(month: 8, day: 13)} 至  ${DateDay.now().copyWith(month: 12, day: 21)} 
 选择模式：${_checked ? '连选' : '单选'} 
 单选日期：${_day?.toString(yearSuffix: '年', monthSuffix: '月', daySuffix: '日') ?? ''}   ::   ${_data ?? ''}
 连选日期：${_firstDay?.toString(yearSuffix: '年', monthSuffix: '月', daySuffix: '日') ?? ''}  至  ${_secondDay?.toString(yearSuffix: '年', monthSuffix: '月', daySuffix: '日') ?? ''}
-'''), padding: EdgeInsets.all(10))
+'''),
+            )
           ],
         ),
       ),
