@@ -1,5 +1,10 @@
 import 'date_day.dart';
 
+///
+/// 月模型 <br/>
+///
+/// Create by JsonYe<597232387@qq.com> on 2019/12
+///
 class DateMonth {
   DateTime _time;
   DateTime get time => _time;

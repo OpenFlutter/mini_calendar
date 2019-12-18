@@ -1,5 +1,9 @@
 import 'date_month.dart';
-
+///
+/// 日模型 <br/>
+///
+/// Create by JsonYe<597232387@qq.com> on 2019/12
+///
 class DateDay extends DateMonth {
   int _day;
   int get day => _day;
