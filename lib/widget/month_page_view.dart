@@ -8,6 +8,11 @@ import '../controller/month_page_controller.dart';
 import '../model/date_month.dart';
 import '../model/month_option.dart';
 
+///
+/// 翻页日历 <br/>
+///
+/// Create by JsonYe<597232387@qq.com> on 2019/12
+///
 class MonthPageView<T> extends StatefulWidget {
   /// 配置参数
   final MonthOption<T> option;
