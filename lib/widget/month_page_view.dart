@@ -96,6 +96,11 @@ class _MonthPageViewState<T> extends State<MonthPageView<T>> {
   @override
   void initState() {
     _monthPageController = MonthPageController<T>()..init(widget.option, pageController: _controller);
+    if (widget.onMonthChange != null) {
+      _monthPageController
+          .positionStream()
+          .listen((position) => widget.onMonthChange(_monthPageController.monthList[position]));
+    }
     SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
       if (widget.onCreated != null) {
         widget.onCreated(_monthPageController);
@@ -120,12 +125,7 @@ class _MonthPageViewState<T> extends State<MonthPageView<T>> {
                   controller: _controller,
                   scrollDirection: widget.scrollDirection,
                   pageSnapping: widget.pageSnapping,
-                  onPageChanged: (position) {
-                    _monthPageController.changePosition(position);
-                    if (widget.onMonthChange != null) {
-                      widget.onMonthChange(_monthPageController.monthList[position]);
-                    }
-                  },
+                  onPageChanged: _monthPageController.changePosition,
                   children: _monthPageController.monthList.map((month) {
                     return MonthWidget(
                       width: _width,
