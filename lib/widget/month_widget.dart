@@ -5,9 +5,11 @@ import '../model/month_option.dart';
 import '../model/date_day.dart';
 import '../handle.dart';
 
+
 ///
-/// 月视图
+/// 月视图 <br/>
 ///
+/// Create by JsonYe<597232387@qq.com> on 2019/12
 ///
 class MonthWidget<T> extends StatelessWidget {
   /// 控制器

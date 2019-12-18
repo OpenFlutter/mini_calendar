@@ -6,6 +6,11 @@ import '../mini_calendar.dart';
 const double SPACING = 3.0;
 const double RUN_SPACING = 3.0;
 
+///
+/// 月视图控制器 <br/>
+///
+/// Create by JsonYe<597232387@qq.com> on 2019/12
+///
 class MonthController<T> {
   StreamController<MonthOption<T>> _monthController = StreamController.broadcast();
 
