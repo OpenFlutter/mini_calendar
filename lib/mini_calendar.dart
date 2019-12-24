@@ -8,3 +8,4 @@ export 'model/month_option.dart';
 export 'widget/month_widget.dart';
 export 'widget/month_page_view.dart';
 export 'handle.dart';
+export 'model/i18n_model.dart';

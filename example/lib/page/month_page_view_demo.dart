@@ -69,6 +69,7 @@ class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
                 setState(() {});
               },
               onCreated: (controller) => _controller = controller,
+              localeType: LocaleType.en,
             ),
             Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,

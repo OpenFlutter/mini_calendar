@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:mini_calendar/mini_calendar.dart';
+import 'package:mini_calendar/model/i18n_model.dart';
 
 import 'model/date_day.dart';
 
 /// 默认构建星期标题
-Widget defaultBuildWeekHead(BuildContext context, int week) {
+Widget defaultBuildWeekHead(BuildContext context, int week,{LocaleType localeType = LocaleType.zh}) {
   switch (week) {
     case 1:
-      return Text('一', style: TextStyle(fontSize: 12, color: Colors.black87));
+      return Text(i18nObjInLocal(localeType)['weekShort'][week], style: TextStyle(fontSize: 12, color: Colors.black87));
     case 2:
-      return Text('二', style: TextStyle(fontSize: 12, color: Colors.black87));
+      return Text(i18nObjInLocal(localeType)['weekShort'][week], style: TextStyle(fontSize: 12, color: Colors.black87));
     case 3:
-      return Text('三', style: TextStyle(fontSize: 12, color: Colors.black87));
+      return Text(i18nObjInLocal(localeType)['weekShort'][week], style: TextStyle(fontSize: 12, color: Colors.black87));
     case 4:
-      return Text('四', style: TextStyle(fontSize: 12, color: Colors.black87));
+      return Text(i18nObjInLocal(localeType)['weekShort'][week], style: TextStyle(fontSize: 12, color: Colors.black87));
     case 5:
-      return Text('五', style: TextStyle(fontSize: 12, color: Colors.black87));
+      return Text(i18nObjInLocal(localeType)['weekShort'][week], style: TextStyle(fontSize: 12, color: Colors.black87));
     case 6:
-      return Text('六', style: TextStyle(fontSize: 12, color: Colors.pink));
+      return Text(i18nObjInLocal(localeType)['weekShort'][week], style: TextStyle(fontSize: 12, color: Colors.pink));
     case 0:
-      return Text('日', style: TextStyle(fontSize: 12, color: Colors.pink));
+      return Text(i18nObjInLocal(localeType)['weekShort'][week], style: TextStyle(fontSize: 12, color: Colors.pink));
   }
   return Container();
 }
@@ -50,7 +51,7 @@ Widget defaultBuildMonthHead(BuildContext context, DateMonth month, {VoidCallbac
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         onLast == null ? Container() : IconButton(icon: Icon(Icons.chevron_left), onPressed: onLast),
-        Text(month.toString(yearSuffix: '年', monthSuffix: '月'), style: TextStyle(fontSize: 20)),
+        Text(month.toString(), style: TextStyle(fontSize: 20)),
         onNext == null ? Container() : IconButton(icon: Icon(Icons.chevron_right), onPressed: onNext),
       ],
     ),
@@ -83,7 +84,8 @@ Widget defaultBuildDayItem<T>(BuildContext context,
     bool isSelected,
     bool isContinuous,
     BuildMark<T> buildMark,
-    OnDaySelected<T> onDaySelected}) {
+    OnDaySelected<T> onDaySelected,
+    LocaleType localeType = LocaleType.zh}) {
   Color _sideColor = Colors.grey[200];
   Color _dayColor = Colors.transparent;
   TextStyle _style;
@@ -108,7 +110,7 @@ Widget defaultBuildDayItem<T>(BuildContext context,
         shape: RoundedRectangleBorder(side: BorderSide(width: 0.3, color: Colors.pinkAccent)),
         child: Padding(
           padding: EdgeInsets.all(1),
-          child: Text('今', style: _style.copyWith(fontSize: 10, color: Colors.pinkAccent)),
+          child: Text(i18nObjInLocal(localeType)['today'], style: _style.copyWith(fontSize: 10, color: Colors.pinkAccent)),
         ),
       ),
     ));

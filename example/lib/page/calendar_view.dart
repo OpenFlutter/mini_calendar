@@ -17,7 +17,7 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
   void initState() {
     List.generate(12, (index) {
       controllers.add(MonthController.init(MonthOption<String>(
-        currentDay: DateDay.now().copyWith(month: index + 1,day: Random().nextInt(27)+1),
+        currentDay: DateDay.now().copyWith(month: index + 1, day: Random().nextInt(27) + 1),
         currentMonth: DateMonth.now().copyWith(month: index + 1),
       )));
       months
@@ -25,6 +25,7 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
           Container(
             child: MonthWidget<String>(
               controller: controllers[index],
+              localeType: Random().nextBool() ? LocaleType.zh : LocaleType.en,
             ),
           ),
         );
