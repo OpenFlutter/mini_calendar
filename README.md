@@ -1,6 +1,6 @@
 ## mini_calendar
 
-[![](https://img.shields.io/pub/v/mini_calendar#align=left&display=inline&height=20&originHeight=20&originWidth=76&status=done&style=none&width=76)](https://pub.flutter-io.cn/packages/mini_calendar)<br />
+[![](https://img.shields.io/pub/v/mini_calendar#align=left&display=inline&height=20&originHeight=20&originWidth=76&status=done&style=none&width=76)](https://pub.flutter-io.cn/packages/mini_calendar) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/OpenFlutter/mini_calendar?style=plastic)
 
 Date component developed with Flutter, plans to support display, swipe left and right, add date mark, radio, display week, etc.
 
@@ -18,7 +18,7 @@ Date component developed with Flutter, plans to support display, swipe left and 
 ### 引入库
 ```dart
 dependencies:
-  mini_calendar: ^0.2.1
+  mini_calendar: ^0.3.0
 ```
 <a name="M36S5"></a>
 ### 导包
@@ -202,6 +202,6 @@ child: Row(
 
 > 更多功能clone项目，运行demo
 
-### 开源不易，老铁们多多支持，给个关注也是支持:)！
+### 开源不易，老铁们多多支持，点赞也是支持 😃 ！
 | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576646832207-e84c24f8-2e66-4937-af4d-b406f88c3974.png#align=left&display=inline&height=436&name=image.png&originHeight=337&originWidth=217&size=83049&status=done&style=none&width=281) | ![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576646720153-ad4673cb-3595-4468-9b60-75725e4322e7.png#align=left&display=inline&height=435&name=image.png&originHeight=298&originWidth=217&size=80120&status=done&style=none&width=317) |
 | :---: | :---: |
