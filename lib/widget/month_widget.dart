@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mini_calendar/model/i18n_model.dart';
 import '../model/date_month.dart';
 import '../controller/month_controller.dart';
 import '../model/month_option.dart';
 import '../model/date_day.dart';
 import '../handle.dart';
-
 
 ///
 /// 月视图 <br/>
@@ -82,6 +82,9 @@ class MonthWidget<T> extends StatelessWidget {
   /// 连选监听
   final OnContinuousSelectListen onContinuousSelectListen;
 
+  /// 国际化语言类型
+  final LocaleType localeType;
+
   const MonthWidget({
     Key key,
     this.padding = EdgeInsets.zero,
@@ -103,13 +106,13 @@ class MonthWidget<T> extends StatelessWidget {
     this.monthHeadColor = Colors.transparent,
     this.weekColor = Colors.blue,
     this.weekendColor = Colors.pink,
+    this.localeType = LocaleType.zh,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     MonthController _monthController = controller ?? MonthController.init()
       ..reLoad();
-
     DateMonth _currentMonth = _monthController.option?.currentMonth;
     return StreamBuilder<MonthOption<T>>(
         stream: _monthController.monthStream(),
@@ -166,7 +169,7 @@ class MonthWidget<T> extends StatelessWidget {
                   int week = (_option.firstWeek + index) % 7;
                   return Container(
                     alignment: Alignment.center,
-                    child: buildWeekHead != null ? buildWeekHead(context, week) : defaultBuildWeekHead(context, week),
+                    child: buildWeekHead != null ? buildWeekHead(context, week) : defaultBuildWeekHead(context, week,localeType: localeType),
                   );
                 }),
               ),
@@ -197,9 +200,8 @@ class MonthWidget<T> extends StatelessWidget {
                           spacing: SPACING,
                           runSpacing: RUN_SPACING,
                           children: _days.map((_time) {
-                            bool enableSelect = _enableEnableSelect(_time,_currentMonth, _option);
+                            bool enableSelect = _enableEnableSelect(_time, _currentMonth, _option);
                             bool isContinuous = _isContinuous(_time, _option);
-                            print("$_time MinDay：${_option.minDay} MaxDay：${_option.maxDay} 编辑：$enableSelect 连选：$isContinuous");
                             return buildDayItem == null
                                 ? defaultBuildDayItem<T>(
                                     context,
@@ -215,6 +217,7 @@ class MonthWidget<T> extends StatelessWidget {
                                     onDaySelected: (day, data) => _onDaySelected(day, data, _option, _monthController),
                                     isSelected: _option.currentDay == _time,
                                     isContinuous: isContinuous,
+                                    localeType: localeType,
                                   )
                                 : buildDayItem(
                                     context,
@@ -278,7 +281,7 @@ class MonthWidget<T> extends StatelessWidget {
     }
   }
 
-  bool _enableEnableSelect(DateDay day,DateMonth month, MonthOption<T> option) {
+  bool _enableEnableSelect(DateDay day, DateMonth month, MonthOption<T> option) {
     return day.inMonth(month) &&
         ((option.minDay != null && option.minDay <= day) || option.minDay == null) &&
         ((option.maxDay != null && option.maxDay >= day) || option.maxDay == null);

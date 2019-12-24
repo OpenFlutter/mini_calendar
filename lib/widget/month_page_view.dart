@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:mini_calendar/model/i18n_model.dart';
 
 import 'month_widget.dart';
 import '../handle.dart';
@@ -62,6 +63,9 @@ class MonthPageView<T> extends StatefulWidget {
   /// 是否可以滑动翻页
   final bool pageSnapping;
 
+  /// 国际化语言类型
+  final LocaleType localeType;
+
   /// 创建后回调
   final ValueChanged<MonthPageController<T>> onCreated;
 
@@ -78,7 +82,7 @@ class MonthPageView<T> extends StatefulWidget {
     this.width,
     this.height,
     this.onDaySelected,
-    this.showWeekHead,
+    this.showWeekHead = true,
     this.buildWeekHead,
     this.scrollDirection = Axis.horizontal,
     this.pageSnapping = true,
@@ -88,6 +92,7 @@ class MonthPageView<T> extends StatefulWidget {
     this.buildMonthHead,
     this.weekHeadColor = Colors.white,
     this.monthHeadColor = Colors.white,
+    this.localeType = LocaleType.zh,
   }) : super(key: key);
 
   @override
@@ -140,6 +145,7 @@ class _MonthPageViewState<T> extends State<MonthPageView<T>> {
                       showWeekHead: false,
                       showMonthHead: false,
                       padding: widget.padding,
+                      localeType: widget.localeType,
                       onDaySelected: (day, data) {
                         _monthPageController
                           ..setCurrentDay(day)
@@ -174,7 +180,7 @@ class _MonthPageViewState<T> extends State<MonthPageView<T>> {
                 alignment: Alignment.center,
                 child: widget.buildWeekHead != null
                     ? widget.buildWeekHead(context, week)
-                    : defaultBuildWeekHead(context, week),
+                    : defaultBuildWeekHead(context, week,localeType: widget.localeType),
               );
             }),
           ),
