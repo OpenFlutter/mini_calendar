@@ -11,22 +11,19 @@ Date component developed with Flutter, plans to support display, swipe left and 
 
 ### 主要想实现的内容
 
-![](https://cdn.nlark.com/yuque/0/2019/svg/179485/1576644701079-fbfbc011-8072-49f8-bc0b-5d38f3b5ea42.svg)
+![功能设计](https://upload-images.jianshu.io/upload_images/14097955-e322a37f80d25deb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ## 使用
-<a name="b3om7"></a>
 ### 引入库
 ```dart
 dependencies:
-  mini_calendar: ^0.3.0
+  mini_calendar: ^0.3.2
 ```
-<a name="M36S5"></a>
 ### 导包
 ```dart
 import 'package:mini_calendar/mini_calendar.dart';
 ```
 
-<a name="e752e1c0"></a>
 ### 月视图(MonthWidget)
 ```dart
 MonthWidget();// 默认当月
@@ -49,7 +46,7 @@ MonthWidget(
 
 - 支持显示连选
 
-```
+```dart
 MonthWidget(
   controller: MonthController.init(MonthOption(
     currentMonth: DateMonth.now().copyWith(month: 1),
@@ -59,7 +56,21 @@ MonthWidget(
   )),
 )
 ```
+- 支持多选
 
+```dart
+MonthWidget(
+  controller: MonthController.init(MonthOption(
+    currentMonth: DateMonth.now().copyWith(month: 1),
+    enableMultiple: true,
+    multipleDays: [
+            DateDay.now().copyWith(month: 1, day: 3),
+            DateDay.now().copyWith(month: 1, day: 5),
+            DateDay.now().copyWith(month: 1, day: 8),
+          ],
+  )),
+)
+```
 
 - 支持添加标记
 - ……
@@ -142,12 +153,11 @@ MonthPageController#last();
 MonthPageController#goto(DateMonth month);
 ```
 
-<br />![month_page_view.gif](https://cdn.nlark.com/yuque/0/2019/gif/179485/1576645231441-773167cc-b54f-4c59-9c1d-e4ecbfc63db5.gif)
-<a name="j4E58"></a>
+![演示](https://upload-images.jianshu.io/upload_images/14097955-88d9957dbdc0c533.gif?imageMogr2/auto-orient/strip|imageView2/2/w/499/format/webp)
+
 ### 高级功能
 > 自定义
 
-<a name="U2wZy"></a>
 #### 自定义月视图背景
 ```dart
 buildMonthBackground: (_, width, height, month) => Image.network(
@@ -158,7 +168,6 @@ buildMonthBackground: (_, width, height, month) => Image.network(
     ),
 ```
 
-<a name="jMbk4"></a>
 #### 自定义月视图头部
 
 ```dart

@@ -1,6 +1,6 @@
 name: mini_calendar
 description: Date component developed with Flutter, plans to support display, swipe left and right, add date mark, radio, display week, etc.
-version: 0.3.1
+version: 0.3.2
 author: yshye<yshye2013@gmain.com>
 homepage: https://github.com/flutterme/mini_calendar
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mini_calendar/model/i18n_model.dart';
+
+import '../model/i18n_model.dart';
 import '../model/date_month.dart';
 import '../controller/month_controller.dart';
 import '../model/month_option.dart';
@@ -75,12 +76,16 @@ class MonthWidget<T> extends StatelessWidget {
   /// [weekendColor] - 周末颜色 <br/>
   /// [isSelected] - 是否被单选 <br/>
   /// [isContinuous] - 是否被连选 <br/>
+  /// [isMultiple] - 是否被多选 <br/>
   /// [buildMark] - 自定义构建mark <br/>
   /// [onDaySelected] - 选择事件 <br/>
   final BuildWithDay<T> buildDayItem;
 
   /// 连选监听
   final OnContinuousSelectListen onContinuousSelectListen;
+
+  /// 多选监听
+  final ValueChanged<List<DateDay>> onMultipleSelectListen;
 
   /// 国际化语言类型
   final LocaleType localeType;
@@ -99,6 +104,7 @@ class MonthWidget<T> extends StatelessWidget {
     this.buildMonthBackground,
     this.buildDayItem,
     this.onContinuousSelectListen,
+    this.onMultipleSelectListen,
     this.showMonthHead = true,
     this.buildMonthHead,
     this.height,
@@ -169,7 +175,9 @@ class MonthWidget<T> extends StatelessWidget {
                   int week = (_option.firstWeek + index) % 7;
                   return Container(
                     alignment: Alignment.center,
-                    child: buildWeekHead != null ? buildWeekHead(context, week) : defaultBuildWeekHead(context, week,localeType: localeType),
+                    child: buildWeekHead != null
+                        ? buildWeekHead(context, week)
+                        : defaultBuildWeekHead(context, week, localeType: localeType),
                   );
                 }),
               ),
@@ -200,8 +208,9 @@ class MonthWidget<T> extends StatelessWidget {
                           spacing: SPACING,
                           runSpacing: RUN_SPACING,
                           children: _days.map((_time) {
-                            bool enableSelect = _enableEnableSelect(_time, _currentMonth, _option);
-                            bool isContinuous = _isContinuous(_time, _option);
+                            bool enableSelect = _option.enableDay(_time, _currentMonth);
+                            bool isContinuous = _option.inContinuouDay(_time);
+                            bool isMultiple = _option.inMultipleDay(_time);
                             return buildDayItem == null
                                 ? defaultBuildDayItem<T>(
                                     context,
@@ -216,6 +225,7 @@ class MonthWidget<T> extends StatelessWidget {
                                     buildMark: buildMark,
                                     onDaySelected: (day, data) => _onDaySelected(day, data, _option, _monthController),
                                     isSelected: _option.currentDay == _time,
+                                    isMultiple: isMultiple,
                                     isContinuous: isContinuous,
                                     localeType: localeType,
                                   )
@@ -244,7 +254,21 @@ class MonthWidget<T> extends StatelessWidget {
   }
 
   void _onDaySelected(DateDay day, T data, MonthOption<T> option, MonthController monthController) {
-    if (option.enableContinuous) {
+    print("$day,多选：${option.enableMultiple}，连续：${option.enableContinuous}");
+    if (option.enableMultiple) {
+      if (onMultipleSelectListen != null) {
+        bool selected = option.inMultipleDay(day);
+        if (selected)
+          monthController
+            ..remove(day)
+            ..reLoad();
+        else
+          monthController
+            ..add(day)
+            ..reLoad();
+        onMultipleSelectListen(option.multipleDays);
+      }
+    } else if (option.enableContinuous) {
       DateDay firstDay = option.firstSelectDay;
       DateDay secondDay = option.secondSelectDay;
       if (firstDay == null) {
@@ -265,10 +289,11 @@ class MonthWidget<T> extends StatelessWidget {
           secondDay = null;
         }
       }
-      monthController
-        ..setContinuousDay(firstDay, secondDay)
-        ..reLoad();
+
       if (onContinuousSelectListen != null) {
+        monthController
+          ..setContinuousDay(firstDay, secondDay)
+          ..reLoad();
         onContinuousSelectListen(firstDay, secondDay);
       }
     } else {
@@ -281,15 +306,16 @@ class MonthWidget<T> extends StatelessWidget {
     }
   }
 
-  bool _enableEnableSelect(DateDay day, DateMonth month, MonthOption<T> option) {
-    return day.inMonth(month) &&
-        ((option.minDay != null && option.minDay <= day) || option.minDay == null) &&
-        ((option.maxDay != null && option.maxDay >= day) || option.maxDay == null);
-  }
+//  bool _enableEnableSelect(DateDay day, DateMonth month, MonthOption<T> option) {
+//    return day.inMonth(month) &&
+//        ((option.minDay != null && option.minDay <= day) || option.minDay == null) &&
+//        ((option.maxDay != null && option.maxDay >= day) || option.maxDay == null);
+//  }
+//
+//  bool _isContinuous(DateDay day, MonthOption<T> option) =>
+//      option.enableContinuous &&
+//          option.firstSelectDay != null &&
+//          (option.secondSelectDay == null && day == option.firstSelectDay) ||
+//      (option.secondSelectDay != null && day >= option.firstSelectDay && day <= option.secondSelectDay);
 
-  bool _isContinuous(DateDay day, MonthOption<T> option) =>
-      option.enableContinuous &&
-          option.firstSelectDay != null &&
-          (option.secondSelectDay == null && day == option.firstSelectDay) ||
-      (option.secondSelectDay != null && day >= option.firstSelectDay && day <= option.secondSelectDay);
 }

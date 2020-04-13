@@ -5,20 +5,15 @@ Date component developed with Flutter, plans to support display, swipe left and 
 使用Flutter开发的日期组件，计划支持显示，左右滑动，添加日期标记，单选，显示星期等功能。
 
 
-<a name="sVRq8"></a>
 ## 开发日记
-<a name="ria82"></a>
 ### 2019-12-09 记
 > 主要想实现的内容
 
-![](https://cdn.nlark.com/yuque/0/2019/svg/179485/1576425808448-b294ad6f-a230-4a01-bfc3-6e3196ed22e1.svg)
+![功能设计](https://upload-images.jianshu.io/upload_images/14097955-e322a37f80d25deb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-
-<a name="mini_calendar"></a>
 ### 2019-12-10 记
 > 整体上，从简单的显示开始，然后再加入交互和控制功能。第一版显示方面，先考虑实现最常用的月视图。
 
-<a name="ahzoY"></a>
 #### 月视图实现
 > 日历的月视图，是非常规则的表格形式。所以就考虑用GridView来实现。
 
@@ -46,11 +41,9 @@ class DateDay extends DateMonth{
 
 
 
-<a name="mXiJH"></a>
 ### 2019-12-12 记
 > 由于GridView在控制高度上面有所不便（可能有好多方法，我没有尝试到），我换成了Warp的方式来实现。
 
-<a name="wa1Sw"></a>
 #### 切换月份
 > 常见的月份切换方式，有类似小米的左右滑动切换，也有上下滑动切换。第一个想到的就是用PageView来实现该功能。
 
@@ -88,12 +81,9 @@ _controller.addListener(() {
 });
 ```
 有了上面的基础，切换月份，也就变成一件简单的事情了。
-<a name="apfsx"></a>
 ### 2019-12-14 记
-<a name="7iLxK"></a>
 #### 实现简单日历
 ![日历.gif](https://cdn.nlark.com/yuque/0/2019/gif/179485/1576424449186-d5ef3e7f-099d-4c7c-8db1-c21e5c88fde6.gif#align=left&display=inline&height=888&name=%E6%97%A5%E5%8E%86.gif&originHeight=973&originWidth=548&size=529806&status=done&style=shadow&width=500)
-<a name="mfYMK"></a>
 #### 连选实现
 > 主要是处理日期选中后的赋值问题。
 
@@ -104,9 +94,7 @@ _controller.addListener(() {
 1. 第二次选择日期，将小日期给到开始日期，大日期给到结束日期上。
 1. 第三次选择日期，当落在小、大之间时，更换大日期。当不落在之间时，小、大日期全部清空。相当于取消选择。
 
-<a name="IppLr"></a>
 ### 2019-12-15 记
-<a name="Z2pEK"></a>
 #### 实现可单选、连选、左右滑动日历控件
 
 - 月视图添加背景
@@ -115,5 +103,11 @@ _controller.addListener(() {
 - 可自定义实现标记组件
 - 利用[切换月份](#%E5%88%87%E6%8D%A2%E6%9C%88%E4%BB%BD)和[连选实现](#%E8%BF%9E%E9%80%89%E5%AE%9E%E7%8E%B0)完成左右切换的可单选、连选的日期控件
 
-   ![单选.gif](https://cdn.nlark.com/yuque/0/2019/gif/179485/1576424343540-a574f9fd-7739-4b65-aa48-bab9896e679a.gif#align=left&display=inline&height=614&name=%E5%8D%95%E9%80%89.gif&originHeight=973&originWidth=548&size=705846&status=done&style=shadow&width=346)   ![多选.gif](https://cdn.nlark.com/yuque/0/2019/gif/179485/1576424344370-f2debb5d-776f-416a-9410-b5090a54d81a.gif#align=left&display=inline&height=614&name=%E5%A4%9A%E9%80%89.gif&originHeight=973&originWidth=548&size=597980&status=done&style=shadow&width=346)
+### 2019-12-24 记
+#### 支持国际化
 
+### 2020-04-13 记
+#### 支持多选
+
+
+![演示](https://upload-images.jianshu.io/upload_images/14097955-88d9957dbdc0c533.gif)
