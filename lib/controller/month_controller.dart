@@ -32,9 +32,20 @@ class MonthController<T> {
   void setCurrentDay(DateDay currentDay) => _option.setCurrentDay(currentDay);
   void setFirstWeek(int week) => _option.setFirstWeek(week);
   void setEnableContinuous(bool enable) => _option.setEnableContinuous(enable);
+  void setEnableMultiple(bool enable) => _option.setEnableMultiple(enable);
   void setContinuousDay(DateDay firstDay, DateDay sercondDay) => _option
     ..setFirstSelectDay(firstDay)
     ..setSecondSelectDay(sercondDay);
+
+  ///  enableMultiple = true 时可用
+  void add(DateDay day) => _option.add(day);
+
+  ///  enableMultiple = true 时可用
+  void setMultipleDays(List<DateDay> days)=>_option.setMutileDays(days);
+
+  ///  enableMultiple = true 时可用
+  bool remove(DateDay day) => _option.remove(day);
+
   void setMarks(Map<DateDay, T> marks) => _option.setMarks(marks);
 
   void reLoad() => _monthController.sink.add(_option);

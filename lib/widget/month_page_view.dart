@@ -39,6 +39,9 @@ class MonthPageView<T> extends StatefulWidget {
   /// 点击事件
   final OnDaySelected<T> onDaySelected;
 
+  /// 多选监听
+  final ValueChanged<List<DateDay>> onMultipleSelectListen;
+
   /// 显示星期头部
   final bool showWeekHead;
 
@@ -93,6 +96,7 @@ class MonthPageView<T> extends StatefulWidget {
     this.weekHeadColor = Colors.white,
     this.monthHeadColor = Colors.white,
     this.localeType = LocaleType.zh,
+    this.onMultipleSelectListen,
   }) : super(key: key);
 
   @override
@@ -145,6 +149,14 @@ class _MonthPageViewState<T> extends State<MonthPageView<T>> {
                       showWeekHead: false,
                       showMonthHead: false,
                       padding: widget.padding,
+                      onMultipleSelectListen: (days) {
+                        _monthPageController
+                          ..setMultipleDays(days)
+                          ..reLoad();
+                        if (widget.onMultipleSelectListen != null) {
+                          widget.onMultipleSelectListen(days);
+                        }
+                      },
                       localeType: widget.localeType,
                       onDaySelected: (day, data) {
                         _monthPageController
@@ -180,7 +192,7 @@ class _MonthPageViewState<T> extends State<MonthPageView<T>> {
                 alignment: Alignment.center,
                 child: widget.buildWeekHead != null
                     ? widget.buildWeekHead(context, week)
-                    : defaultBuildWeekHead(context, week,localeType: widget.localeType),
+                    : defaultBuildWeekHead(context, week, localeType: widget.localeType),
               );
             }),
           ),

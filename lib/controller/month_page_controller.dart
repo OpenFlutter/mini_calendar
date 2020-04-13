@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../mini_calendar.dart';
 
 const int CACHE_SIZE = 12;
+
 ///
 /// 翻页日历控制器 <br/>
 ///
@@ -100,9 +101,15 @@ class MonthPageController<T> {
   void setCurrentDay(DateDay currentDay) => _option.setCurrentDay(currentDay);
   void setFirstWeek(int week) => _option.setFirstWeek(week);
   void setEnableContinuous(bool enable) => _option.setEnableContinuous(enable);
+
+  void setEnableMultiple(bool enable) => _option.setEnableMultiple(enable);
+
   void setContinuousDay(DateDay firstDay, DateDay sercondDay) => _option
     ..setFirstSelectDay(firstDay)
     ..setSecondSelectDay(sercondDay);
+
+  void setMultipleDays(List<DateDay> days) => _option.setMutileDays(days);
+
   void setMarks(Map<DateDay, T> marks) => _option.setMarks(marks);
 
   /// 更新组件
@@ -110,10 +117,12 @@ class MonthPageController<T> {
     List.generate(_controllerList.length, (index) {
       _controllerList[index]
         ..setCurrentDay(_option.currentDay)
-        ..setContinuousDay(_option.firstSelectDay, _option.secondSelectDay)
         ..setEnableContinuous(_option.enableContinuous)
+        ..setContinuousDay(_option.firstSelectDay, _option.secondSelectDay)
         ..setFirstWeek(_option.firstWeek)
         ..setMarks(_option.marks)
+        ..setEnableMultiple(_option.enableMultiple)
+        ..setMultipleDays(_option.multipleDays)
         ..reLoad();
     });
     _monthListController.sink.add(_monthList);
