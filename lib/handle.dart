@@ -5,7 +5,7 @@ import 'package:mini_calendar/model/i18n_model.dart';
 import 'model/date_day.dart';
 
 /// 默认构建星期标题
-Widget defaultBuildWeekHead(BuildContext context, int week,{LocaleType localeType = LocaleType.zh}) {
+Widget defaultBuildWeekHead(BuildContext context, int week, {LocaleType localeType = LocaleType.zh}) {
   switch (week) {
     case 1:
       return Text(i18nObjInLocal(localeType)['weekShort'][week], style: TextStyle(fontSize: 12, color: Colors.black87));
@@ -58,6 +58,22 @@ Widget defaultBuildMonthHead(BuildContext context, DateMonth month, {VoidCallbac
   );
 }
 
+/// 默认构建年视图头部
+Widget defaultBuildYearHead(BuildContext context, int year, {VoidCallback onLast, VoidCallback onNext}) {
+  return Container(
+    padding: EdgeInsets.all(10),
+    alignment: Alignment.center,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        onLast == null ? Container() : IconButton(icon: Icon(Icons.chevron_left), onPressed: onLast),
+        Text("$year", style: TextStyle(fontSize: 20)),
+        onNext == null ? Container() : IconButton(icon: Icon(Icons.chevron_right), onPressed: onNext),
+      ],
+    ),
+  );
+}
+
 /// 默认构建日视图  <br/>
 /// [context] - 上下文  <br/>
 /// [height] - 控件高  <br/>
@@ -70,6 +86,7 @@ Widget defaultBuildMonthHead(BuildContext context, DateMonth month, {VoidCallbac
 /// [weekendColor] - 周末颜色 <br/>
 /// [isSelected] - 是否被单选 <br/>
 /// [isContinuous] - 是否被连选 <br/>
+/// [isMultiple] - 是否被多选 <br/>
 /// [buildMark] - 自定义构建mark <br/>
 /// [onDaySelected] - 选择事件 <br/>
 Widget defaultBuildDayItem<T>(BuildContext context,
@@ -81,8 +98,9 @@ Widget defaultBuildDayItem<T>(BuildContext context,
     T markData,
     Color weekColor = Colors.blue,
     Color weekendColor = Colors.pink,
-    bool isSelected,
-    bool isContinuous,
+    bool isSelected = false,
+    bool isContinuous = false,
+    bool isMultiple = false,
     BuildMark<T> buildMark,
     OnDaySelected<T> onDaySelected,
     LocaleType localeType = LocaleType.zh}) {
@@ -98,7 +116,9 @@ Widget defaultBuildDayItem<T>(BuildContext context,
     _dayColor = Colors.blue.withAlpha(200);
     _style = _style.copyWith(color: Colors.white);
   }
-  if (isContinuous) _sideColor = Colors.deepOrange;
+  if (isMultiple || (!isMultiple && isContinuous)) {
+    _sideColor = Colors.deepOrange;
+  }
 
   List<Widget> items = [Center(child: Text("${dayTime.day}${hasMark ? '' : ''}", style: _style))];
   if (dayTime.isToday()) {
@@ -110,7 +130,8 @@ Widget defaultBuildDayItem<T>(BuildContext context,
         shape: RoundedRectangleBorder(side: BorderSide(width: 0.3, color: Colors.pinkAccent)),
         child: Padding(
           padding: EdgeInsets.all(1),
-          child: Text(i18nObjInLocal(localeType)['today'], style: _style.copyWith(fontSize: 10, color: Colors.pinkAccent)),
+          child:
+              Text(i18nObjInLocal(localeType)['today'], style: _style.copyWith(fontSize: 10, color: Colors.pinkAccent)),
         ),
       ),
     ));
@@ -154,6 +175,11 @@ typedef BuildWeekHead = Widget Function(BuildContext context, int week);
 /// [month] - 所在月份
 typedef BuildWithMonth = Widget Function(BuildContext context, double width, double height, DateMonth month);
 
+/// 构建年相关控件  <br/>
+/// [context] - 上下文  <br/>
+/// [month] - 所在月份
+typedef BuildWithYear = Widget Function(BuildContext context, double width, double height, int year);
+
 /// 默认构建日视图  <br/>
 /// [context] - 上下文  <br/>
 /// [height] - 控件高  <br/>
@@ -166,6 +192,7 @@ typedef BuildWithMonth = Widget Function(BuildContext context, double width, dou
 /// [weekendColor] - 周末颜色 <br/>
 /// [isSelected] - 是否被单选 <br/>
 /// [isContinuous] - 是否被连选 <br/>
+/// [isMultiple] - 是否被多选 <br/>
 /// [buildMark] - 自定义构建mark <br/>
 /// [onDaySelected] - 选择事件 <br/>
 typedef BuildWithDay<T> = Widget Function(BuildContext context,
@@ -179,6 +206,7 @@ typedef BuildWithDay<T> = Widget Function(BuildContext context,
     Color weekendColor,
     bool isSelected,
     bool isContinuous,
+    bool isMultiple,
     BuildMark<T> buildMark,
     OnDaySelected<T> onDaySelected});
 

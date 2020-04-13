@@ -17,9 +17,17 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
   void initState() {
     List.generate(12, (index) {
       controllers.add(MonthController.init(MonthOption<String>(
-        currentDay: DateDay.now().copyWith(month: index + 1, day: Random().nextInt(27) + 1),
-        currentMonth: DateMonth.now().copyWith(month: index + 1),
-      )));
+          currentDay: DateDay.now().copyWith(month: index + 1, day: Random().nextInt(27) + 1),
+          currentMonth: DateMonth.now().copyWith(month: index + 1),
+          enableContinuous: Random().nextBool(),
+          firstSelectDay: DateDay.now().copyWith(month: index + 1, day: Random().nextInt(15) + 1),
+          secondSelectDay: DateDay.now().copyWith(month: index + 1, day: Random().nextInt(12) + 15),
+          enableMultiple: Random().nextBool(),
+          multipleDays: [
+            DateDay.now().copyWith(month: index + 1, day: 3),
+            DateDay.now().copyWith(month: index + 1, day: 5),
+            DateDay.now().copyWith(month: index + 1, day: 8),
+          ])));
       months
         ..add(
           Container(
