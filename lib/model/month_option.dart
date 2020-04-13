@@ -38,6 +38,11 @@ class MonthOption<T> {
   bool get enableContinuous => _enableContinuous;
   void setEnableContinuous(bool value) => _enableContinuous = value;
 
+  /// 在连续中
+  bool inContinuouDay(DateDay day) =>
+      _enableContinuous && _firstSelectDay != null && (_secondSelectDay == null && day == _firstSelectDay) ||
+      (_secondSelectDay != null && day >= _firstSelectDay && day <= _secondSelectDay);
+
   /// 标记
   Map<DateDay, T> _marks;
   Map<DateDay, T> get marks => _marks;
@@ -52,6 +57,37 @@ class MonthOption<T> {
   DateDay _minDay;
   DateDay get minDay => _minDay;
 
+  /// 当前日期是否可用
+  bool enableDay(DateDay day, DateMonth month) =>
+      day.inMonth(month) &&
+      ((_minDay != null && _minDay <= day) || _minDay == null) &&
+      ((_maxDay != null && _maxDay >= day) || _maxDay == null);
+
+  /// 是否开启多选，开启多选后连选失效
+  bool _enableMultiple;
+  bool get enableMultiple => _enableMultiple;
+  void setEnableMultiple(bool value) => _enableMultiple = value;
+
+  List<DateDay> _multipleDays;
+  List<DateDay> get multipleDays => _multipleDays;
+  void setMutileDays(List<DateDay> days) => _multipleDays = days;
+
+  void add(DateDay day) {
+    if (_multipleDays == null) _multipleDays = [];
+    _multipleDays.add(day);
+  }
+
+  bool remove(DateDay day) {
+    if (_multipleDays == null) return true;
+    return _multipleDays.remove(day);
+  }
+
+  /// 在多选中
+  bool inMultipleDay(DateDay day) {
+    if (!_enableMultiple || multipleDays == null) return false;
+    return multipleDays.any((item) => item == day);
+  }
+
   /// 初始化 <br/>
   /// [currentDay] - 选择的日期 <br/>
   /// [currentMonth] - 当前月份 <br/>
@@ -59,6 +95,8 @@ class MonthOption<T> {
   /// [enableContinuous] - 是否支持连选 <br/>
   /// [firstSelectDay] - 连选第一个日期<br/>
   /// [secondSelectDay] - 连选第二个日期<br/>
+  /// [enableMultiple] - 是否开启多选，开启多选后连选失效 <br/>
+  /// [multipleDays] - 多选的默认日期 <br/>
   /// [marks] - 标记<br/>
   /// [minDay] - 可选的最小日期<br/>
   /// [maxDay] - 可选的最大日期<br/>
@@ -70,6 +108,8 @@ class MonthOption<T> {
     DateDay secondSelectDay,
     bool enableContinuous = false,
     Map<DateDay, T> marks = const {},
+    List<DateDay> multipleDays,
+    bool enableMultiple = false,
     DateDay minDay,
     DateDay maxDay,
   }) {
@@ -78,8 +118,10 @@ class MonthOption<T> {
         (this.currentDay == null ? DateMonth.now() : DateMonth(this.currentDay.year, this.currentDay.month));
     this._firstWeek = firstWeek;
     this._enableContinuous = enableContinuous;
+    this._enableMultiple = enableMultiple;
     this._firstSelectDay = firstSelectDay;
     this._secondSelectDay = secondSelectDay;
+    this._multipleDays = multipleDays;
     this._marks = marks;
     this._minDay = minDay;
     this._maxDay = maxDay;
@@ -92,6 +134,8 @@ class MonthOption<T> {
   /// [enableContinuous] - 是否支持连选 <br/>
   /// [firstSelectDay] - 连选第一个日期<br/>
   /// [secondSelectDay] - 连选第二个日期<br/>
+  /// [enableMultiple] - 是否开启多选，开启多选后连选失效 <br/>
+  /// [multipleDays] - 多选的默认日期 <br/>
   /// [marks] - 标记<br/>
   /// [minDay] - 可选的最小日期<br/>
   /// [maxDay] - 可选的最大日期<br/>
@@ -102,7 +146,9 @@ class MonthOption<T> {
     DateDay firstSelectDay,
     DateDay secondSelectDay,
     bool enableContinuous,
+    bool enableMultiple,
     Map<DateDay, T> marks,
+    List<DateDay> multipleDays,
     DateDay minDay,
     DateDay maxDay,
   }) {
@@ -113,6 +159,8 @@ class MonthOption<T> {
       firstWeek: firstWeek ?? this.firstWeek,
       secondSelectDay: secondSelectDay ?? this.secondSelectDay,
       enableContinuous: enableContinuous ?? this.enableContinuous,
+      enableMultiple: enableMultiple ?? this.enableMultiple,
+      multipleDays: multipleDays,
       marks: marks ?? this.marks,
       minDay: minDay ?? this.minDay,
       maxDay: maxDay ?? this.maxDay,
