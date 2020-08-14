@@ -173,7 +173,7 @@ typedef BuildWeekHead = Widget Function(BuildContext context, int week);
 /// 构建月相关控件  <br/>
 /// [context] - 上下文  <br/>
 /// [month] - 所在月份
-typedef BuildWithMonth = Widget Function(BuildContext context, double width, double height, DateMonth month);
+typedef BuildWithMonth = Widget Function(BuildContext context, double width, double height, DateMonth month, {VoidCallback onLast, VoidCallback onNext});
 
 /// 构建年相关控件  <br/>
 /// [context] - 上下文  <br/>
