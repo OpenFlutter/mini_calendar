@@ -212,7 +212,11 @@ class _MonthPageViewState<T> extends State<MonthPageView<T>> {
                   builder: (ctx, data) {
                     return widget.buildMonthHead != null
                         ? widget.buildMonthHead(
-                            context, _width, double.infinity, _monthPageController.monthList[data.data])
+                            context, _width, double.infinity, _monthPageController.monthList[data.data], onLast: () {
+                            _monthPageController.last();
+                          }, onNext: () {
+                            _monthPageController.next();
+                          })
                         : defaultBuildMonthHead(context, _monthPageController.monthList[data.data], onLast: () {
                             _monthPageController.last();
                           }, onNext: () {
