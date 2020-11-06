@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../model/i18n_model.dart';
 import '../model/date_month.dart';
 import '../controller/month_controller.dart';
 import '../model/month_option.dart';
 import '../model/date_day.dart';
+import '../model/calendar_i18n_model.dart';
 import '../handle.dart';
 
 ///
@@ -88,7 +88,7 @@ class MonthWidget<T> extends StatelessWidget {
   final ValueChanged<List<DateDay>> onMultipleSelectListen;
 
   /// 国际化语言类型
-  final LocaleType localeType;
+  final CalendarLocaleType localeType;
 
   const MonthWidget({
     Key key,
@@ -110,9 +110,9 @@ class MonthWidget<T> extends StatelessWidget {
     this.height,
     this.weekHeadColor = Colors.transparent,
     this.monthHeadColor = Colors.transparent,
-    this.weekColor = Colors.blue,
-    this.weekendColor = Colors.pink,
-    this.localeType = LocaleType.zh,
+    this.weekColor = const Color(0xa6000000),
+    this.weekendColor = const Color(0xffff9a9a),
+    this.localeType = CalendarLocaleType.zh,
   }) : super(key: key);
 
   @override
@@ -134,8 +134,8 @@ class MonthWidget<T> extends StatelessWidget {
 
           double _width = width ?? MediaQuery.of(context).size.width;
           double _height = height ?? _width * 5.5 / 7.0;
-          double _dayWidth = ((_width - padding.left - padding.right + SPACING - 1.0) / 7.0) - SPACING;
-          double _dayHeight = ((_height - padding.top - padding.bottom + RUN_SPACING - 1.0) / _hSize) - RUN_SPACING;
+          double _dayWidth = ((_width - padding.left - padding.right - 1.0) / 7.0);
+          double _dayHeight = ((_height - padding.top - padding.bottom - 1.0) / _hSize);
 
           List<DateDay> _days = [];
 
@@ -205,8 +205,8 @@ class MonthWidget<T> extends StatelessWidget {
                       width: _width,
                       height: _height,
                       child: Wrap(
-                          spacing: SPACING,
-                          runSpacing: RUN_SPACING,
+                          spacing: 0,
+                          runSpacing: 0,
                           children: _days.map((_time) {
                             bool enableSelect = _option.enableDay(_time, _currentMonth);
                             bool isContinuous = _option.inContinuouDay(_time);
@@ -220,6 +220,9 @@ class MonthWidget<T> extends StatelessWidget {
                                     enableSelect: enableSelect,
                                     height: _dayHeight,
                                     width: _dayWidth,
+                                    first: isContinuous && _time == _option.firstSelectDay,
+                                    end: isContinuous &&
+                                        (_option.secondSelectDay == null || _time == _option.secondSelectDay),
                                     hasMark: _option.marks.containsKey(_time),
                                     markData: _option.marks[_time],
                                     buildMark: buildMark,

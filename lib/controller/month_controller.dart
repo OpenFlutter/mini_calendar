@@ -3,8 +3,8 @@ import 'dart:async';
 import '../model/month_option.dart';
 import '../mini_calendar.dart';
 
-const double SPACING = 3.0;
-const double RUN_SPACING = 3.0;
+const double SPACING = 0.0;
+const double RUN_SPACING = 0.0;
 
 ///
 /// 月视图控制器 <br/>
@@ -33,9 +33,9 @@ class MonthController<T> {
   void setFirstWeek(int week) => _option.setFirstWeek(week);
   void setEnableContinuous(bool enable) => _option.setEnableContinuous(enable);
   void setEnableMultiple(bool enable) => _option.setEnableMultiple(enable);
-  void setContinuousDay(DateDay firstDay, DateDay sercondDay) => _option
+  void setContinuousDay(DateDay firstDay, DateDay secondDay) => _option
     ..setFirstSelectDay(firstDay)
-    ..setSecondSelectDay(sercondDay);
+    ..setSecondSelectDay(secondDay);
 
   ///  enableMultiple = true 时可用
   void add(DateDay day) => _option.add(day);
