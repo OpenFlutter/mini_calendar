@@ -1,26 +1,34 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mini_calendar/mini_calendar.dart';
-import 'package:mini_calendar/model/i18n_model.dart';
+import 'mini_calendar.dart';
 
+import 'model/calendar_i18n_model.dart';
 import 'model/date_day.dart';
 
 /// 默认构建星期标题
-Widget defaultBuildWeekHead(BuildContext context, int week, {LocaleType localeType = LocaleType.zh}) {
+Widget defaultBuildWeekHead(BuildContext context, int week, {CalendarLocaleType localeType = CalendarLocaleType.zh}) {
   switch (week) {
     case 1:
-      return Text(i18nObjInLocal(localeType)['weekShort'][week], style: TextStyle(fontSize: 12, color: Colors.black87));
+      return Text(i18nObjInLocal(localeType)['weekShort'][week],
+          style: TextStyle(fontSize: 16, color: Color(0xd9000000)));
     case 2:
-      return Text(i18nObjInLocal(localeType)['weekShort'][week], style: TextStyle(fontSize: 12, color: Colors.black87));
+      return Text(i18nObjInLocal(localeType)['weekShort'][week],
+          style: TextStyle(fontSize: 16, color: Color(0xd9000000)));
     case 3:
-      return Text(i18nObjInLocal(localeType)['weekShort'][week], style: TextStyle(fontSize: 12, color: Colors.black87));
+      return Text(i18nObjInLocal(localeType)['weekShort'][week],
+          style: TextStyle(fontSize: 16, color: Color(0xd9000000)));
     case 4:
-      return Text(i18nObjInLocal(localeType)['weekShort'][week], style: TextStyle(fontSize: 12, color: Colors.black87));
+      return Text(i18nObjInLocal(localeType)['weekShort'][week],
+          style: TextStyle(fontSize: 16, color: Color(0xd9000000)));
     case 5:
-      return Text(i18nObjInLocal(localeType)['weekShort'][week], style: TextStyle(fontSize: 12, color: Colors.black87));
+      return Text(i18nObjInLocal(localeType)['weekShort'][week],
+          style: TextStyle(fontSize: 16, color: Color(0xd9000000)));
     case 6:
-      return Text(i18nObjInLocal(localeType)['weekShort'][week], style: TextStyle(fontSize: 12, color: Colors.pink));
+      return Text(i18nObjInLocal(localeType)['weekShort'][week],
+          style: TextStyle(fontSize: 16, color: Color(0xffff9a9a)));
     case 0:
-      return Text(i18nObjInLocal(localeType)['weekShort'][week], style: TextStyle(fontSize: 12, color: Colors.pink));
+      return Text(i18nObjInLocal(localeType)['weekShort'][week],
+          style: TextStyle(fontSize: 16, color: Color(0xffff9a9a)));
   }
   return Container();
 }
@@ -39,23 +47,35 @@ Widget defaultBuildMark<T>({BuildContext context, DateDay day, T data}) {
 
 /// 默认构建月视图背景
 Widget defaultBuildMonthBackground(BuildContext context, DateMonth month) {
-  return Text("${month.month}", style: TextStyle(fontSize: 120, color: Colors.black12));
+  return Text("${month.month}", style: TextStyle(fontSize: 200, color: Color(0x0b000000)));
 }
 
 /// 默认构建月视图头部
-Widget defaultBuildMonthHead(BuildContext context, DateMonth month, {VoidCallback onLast, VoidCallback onNext}) {
-  return Container(
-    padding: EdgeInsets.all(10),
-    alignment: Alignment.center,
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        onLast == null ? Container() : IconButton(icon: Icon(Icons.chevron_left), onPressed: onLast),
-        Text(month.toString(), style: TextStyle(fontSize: 20)),
-        onNext == null ? Container() : IconButton(icon: Icon(Icons.chevron_right), onPressed: onNext),
-      ],
+Widget defaultBuildMonthHead(BuildContext context, DateMonth month,
+    {VoidCallback onLast, VoidCallback onNext, VoidCallback onClear}) {
+  return Stack(children: [
+    Container(
+      padding: EdgeInsets.all(10),
+      alignment: Alignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          onLast == null
+              ? Container()
+              : IconButton(icon: Icon(Icons.chevron_left, color: Color(0x73000000)), onPressed: onLast),
+          Text(month.toString(yearSuffix: '年', monthSuffix: '月'),
+              style: TextStyle(fontSize: 20, color: Color(0xd9000000))),
+          onNext == null
+              ? Container()
+              : IconButton(icon: Icon(Icons.chevron_right, color: Color(0x73000000)), onPressed: onNext),
+        ],
+      ),
     ),
-  );
+    Positioned(
+        top: 10,
+        right: 10,
+        child: onClear == null ? Container() : IconButton(icon: Icon(Icons.delete_forever), onPressed: onClear,color: Colors.red))
+  ]);
 }
 
 /// 默认构建年视图头部
@@ -96,28 +116,47 @@ Widget defaultBuildDayItem<T>(BuildContext context,
     double height,
     double width,
     T markData,
-    Color weekColor = Colors.blue,
-    Color weekendColor = Colors.pink,
+    Color weekColor = const Color(0xa6000000),
+    Color weekendColor = const Color(0xffff9a9a),
     bool isSelected = false,
     bool isContinuous = false,
     bool isMultiple = false,
+    bool first = true,
+    bool end = true,
     BuildMark<T> buildMark,
     OnDaySelected<T> onDaySelected,
-    LocaleType localeType = LocaleType.zh}) {
-  Color _sideColor = Colors.grey[200];
+    CalendarLocaleType localeType = CalendarLocaleType.zh}) {
+  Color _sideColor = Colors.transparent;
+  BorderRadiusGeometry borderRadius = BorderRadius.zero;
   Color _dayColor = Colors.transparent;
   TextStyle _style;
   if (!enableSelect) {
-    _style = TextStyle(fontSize: 12, color: dayTime.weekday > 5 ? weekendColor.withAlpha(80) : weekColor.withAlpha(80));
+    _style = TextStyle(fontSize: 18, color: dayTime.weekday > 5 ? weekendColor.withAlpha(65) : weekColor.withAlpha(80));
   } else {
-    _style = TextStyle(fontSize: 12, color: dayTime.weekday > 5 ? weekendColor : weekColor);
+    _style = TextStyle(fontSize: 18, color: dayTime.weekday > 5 ? weekendColor : weekColor);
   }
   if (isSelected) {
-    _dayColor = Colors.blue.withAlpha(200);
+    _dayColor = Color(0xff487cff);
+    borderRadius = BorderRadius.circular(5);
     _style = _style.copyWith(color: Colors.white);
   }
-  if (isMultiple || (!isMultiple && isContinuous)) {
+  if (isMultiple) {
+    borderRadius = BorderRadius.circular(5);
     _sideColor = Colors.deepOrange;
+  }
+  if (isContinuous) {
+    _dayColor = Color(0x99c9d8ff);
+    if (end) {
+      _dayColor = Color(0xd9487cff);
+      _style = _style.copyWith(color: Colors.white);
+    }
+    borderRadius = BorderRadius.only(
+      topLeft: Radius.circular(first ? 5 : 0),
+      bottomLeft: Radius.circular(first ? 5 : 0),
+      topRight: Radius.circular(end ? 5 : 0),
+      bottomRight: Radius.circular(end ? 5 : 0),
+    );
+    _sideColor = Color(0xc9c9d8ff);
   }
 
   List<Widget> items = [Center(child: Text("${dayTime.day}${hasMark ? '' : ''}", style: _style))];
@@ -140,25 +179,29 @@ Widget defaultBuildDayItem<T>(BuildContext context,
     items.add(buildMark == null ? defaultBuildMark() : buildMark(context, dayTime, markData));
   }
 
-  return Material(
-    color: _dayColor,
-    shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(3),
+  return Padding(
+    padding: EdgeInsets.only(top: 9, bottom: 9, left: isMultiple ? 3 : 0, right: isMultiple ? 3 : 0),
+    child: Material(
+      color: _dayColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: borderRadius,
         side: BorderSide(
           width: 0.5,
           color: _sideColor,
-        )),
-    child: Ink(
-      child: InkWell(
-        onTap: () {
-          if (onDaySelected != null && enableSelect) {
-            onDaySelected(dayTime, markData);
-          }
-        },
-        child: Container(
-          height: height,
-          width: width,
-          child: Stack(children: items),
+        ),
+      ),
+      child: Ink(
+        child: InkWell(
+          onTap: () {
+            if (onDaySelected != null && enableSelect) {
+              onDaySelected(dayTime, markData);
+            }
+          },
+          child: Container(
+            height: height - 18,
+            width: width - (isMultiple ? 6 : 0),
+            child: Stack(children: items),
+          ),
         ),
       ),
     ),
