@@ -33,7 +33,7 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
           Container(
             child: MonthWidget<String>(
               controller: controllers[index],
-              localeType: Random().nextBool() ? LocaleType.zh : LocaleType.en,
+              localeType: Random().nextBool() ? CalendarLocaleType.zh : CalendarLocaleType.en,
             ),
           ),
         );
