@@ -42,15 +42,18 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             RaisedButton(
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => CalendarViewPage())),
+              onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (ctx) => CalendarViewPage())),
               child: Text('年历'),
             ),
             RaisedButton(
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => MonthPageViewDemo())),
+              onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (ctx) => MonthPageViewDemo())),
               child: Text('日历'),
             ),
             RaisedButton(
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => CalendarCustomizePage())),
+              onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (ctx) => CalendarCustomizePage())),
               child: Text('自定义'),
             ),
           ],

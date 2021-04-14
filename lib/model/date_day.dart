@@ -1,4 +1,5 @@
 import 'date_month.dart';
+
 ///
 /// 日模型 <br/>
 ///
@@ -8,7 +9,8 @@ class DateDay extends DateMonth {
   int _day;
   int get day => _day;
 
-  DateDay([int year, int month, int day]) : this.dateTime(DateTime(year, month, day));
+  DateDay([int year, int month, int day])
+      : this.dateTime(DateTime(year, month, day));
 
   DateDay.dateTime(DateTime time) : super.dateTime(time) {
     this._day = time.day;
@@ -20,17 +22,22 @@ class DateDay extends DateMonth {
     return DateDay(year ?? this.year, month ?? this.month, day ?? this.day);
   }
 
-  DateDay subtract(Duration duration) => DateDay.dateTime(time.subtract(duration));
+  DateDay subtract(Duration duration) =>
+      DateDay.dateTime(time.subtract(duration));
 
   DateDay add(Duration duration) => DateDay.dateTime(time.add(duration));
 
   bool isToday() => this == DateDay.now();
 
-  bool inMonth(DateMonth month) => year == month.year && this.month == month.month;
+  bool inMonth(DateMonth month) =>
+      year == month.year && this.month == month.month;
 
   @override
   // ignore: invalid_override_different_default_values_named
-  String toString({String yearSuffix = '-',String monthSuffix = '-',String daySuffix =''}) {
+  String toString(
+      {String yearSuffix = '-',
+      String monthSuffix = '-',
+      String daySuffix = ''}) {
     String y = fourDigits(year);
     String m = twoDigits(month);
     String d = twoDigits(day);
