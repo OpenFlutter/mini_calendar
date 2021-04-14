@@ -112,11 +112,11 @@ class _MonthPageViewState<T> extends State<MonthPageView<T>> {
 
   @override
   void initState() {
-    _monthPageController = MonthPageController<T>()..init(widget.option, pageController: _controller);
+    _monthPageController = MonthPageController<T>()
+      ..init(widget.option, pageController: _controller);
     if (widget.onMonthChange != null) {
-      _monthPageController
-          .positionStream()
-          .listen((position) => widget.onMonthChange(_monthPageController.monthList[position]));
+      _monthPageController.positionStream().listen((position) =>
+          widget.onMonthChange(_monthPageController.monthList[position]));
     }
     SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
       if (widget.onCreated != null) {
@@ -146,7 +146,8 @@ class _MonthPageViewState<T> extends State<MonthPageView<T>> {
                   children: _monthPageController.monthList.map((month) {
                     return MonthWidget(
                       width: _width,
-                      controller: _monthPageController.getMonthController(month)..setCurrentMonth(month),
+                      controller: _monthPageController.getMonthController(month)
+                        ..setCurrentMonth(month),
                       color: widget.color,
                       buildMark: widget.buildMark,
                       showWeekHead: false,
@@ -161,11 +162,20 @@ class _MonthPageViewState<T> extends State<MonthPageView<T>> {
                         }
                       },
                       localeType: widget.localeType,
-                      onDaySelected: (day, data) {
-                        _monthPageController
-                          ..setCurrentDay(day)
-                          ..reLoad();
-                        if (widget.onDaySelected != null) widget.onDaySelected(day, data);
+                      onDaySelected: (day, data, enable) {
+                        if (enable) {
+                          _monthPageController
+                            ..setCurrentDay(day)
+                            ..reLoad();
+                        }
+                        if (day > month.monthEndDay) {
+                          _monthPageController.next();
+                        } else if (day < month.monthFirstDay) {
+                          _monthPageController.last();
+                        } else {
+                          if (widget.onDaySelected != null)
+                            widget.onDaySelected(day, data, enable);
+                        }
                       },
                       onContinuousSelectListen: (firstDay, secondDay) {
                         _monthPageController
@@ -186,7 +196,11 @@ class _MonthPageViewState<T> extends State<MonthPageView<T>> {
           width: _width,
           height: 36,
           color: widget.weekHeadColor,
-          padding: EdgeInsets.only(left: widget.padding.left, right: widget.padding.right, top: 5, bottom: 5),
+          padding: EdgeInsets.only(
+              left: widget.padding.left,
+              right: widget.padding.right,
+              top: 5,
+              bottom: 5),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -196,7 +210,8 @@ class _MonthPageViewState<T> extends State<MonthPageView<T>> {
                 alignment: Alignment.center,
                 child: widget.buildWeekHead != null
                     ? widget.buildWeekHead(context, week)
-                    : defaultBuildWeekHead(context, week, localeType: widget.localeType),
+                    : defaultBuildWeekHead(context, week,
+                        localeType: widget.localeType),
               );
             }),
           ),
@@ -209,13 +224,18 @@ class _MonthPageViewState<T> extends State<MonthPageView<T>> {
         Container(
           width: _width,
           color: widget.monthHeadColor,
-          padding: EdgeInsets.only(left: widget.padding.left, right: widget.padding.right, top: 5, bottom: 5),
+          padding: EdgeInsets.only(
+              left: widget.padding.left,
+              right: widget.padding.right,
+              top: 5,
+              bottom: 5),
           child: StreamBuilder<int>(
               stream: _monthPageController.positionStream(),
               initialData: _monthPageController.position,
               builder: (ctx, data) {
                 return widget.buildMonthHead != null
-                    ? widget.buildMonthHead(context, _width, double.infinity, _monthPageController.monthList[data.data])
+                    ? widget.buildMonthHead(context, _width, double.infinity,
+                        _monthPageController.monthList[data.data])
                     : defaultBuildMonthHead(
                         context,
                         _monthPageController.monthList[data.data],
