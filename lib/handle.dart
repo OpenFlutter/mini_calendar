@@ -6,7 +6,8 @@ import 'model/calendar_i18n_model.dart';
 import 'model/date_day.dart';
 
 /// 默认构建星期标题
-Widget defaultBuildWeekHead(BuildContext context, int week, {CalendarLocaleType localeType = CalendarLocaleType.zh}) {
+Widget defaultBuildWeekHead(BuildContext context, int week,
+    {CalendarLocaleType localeType = CalendarLocaleType.zh}) {
   switch (week) {
     case 1:
       return Text(i18nObjInLocal(localeType)['weekShort'][week],
@@ -25,10 +26,10 @@ Widget defaultBuildWeekHead(BuildContext context, int week, {CalendarLocaleType 
           style: TextStyle(fontSize: 16, color: Color(0xd9000000)));
     case 6:
       return Text(i18nObjInLocal(localeType)['weekShort'][week],
-          style: TextStyle(fontSize: 16, color: Color(0xffff9a9a)));
+          style: TextStyle(fontSize: 16, color: Color(0xffFF4081)));
     case 0:
       return Text(i18nObjInLocal(localeType)['weekShort'][week],
-          style: TextStyle(fontSize: 16, color: Color(0xffff9a9a)));
+          style: TextStyle(fontSize: 16, color: Color(0xffFF4081)));
   }
   return Container();
 }
@@ -47,7 +48,8 @@ Widget defaultBuildMark<T>({BuildContext context, DateDay day, T data}) {
 
 /// 默认构建月视图背景
 Widget defaultBuildMonthBackground(BuildContext context, DateMonth month) {
-  return Text("${month.month}", style: TextStyle(fontSize: 200, color: Color(0x0b000000)));
+  return Text("${month.month}",
+      style: TextStyle(fontSize: 200, color: Color(0x0b000000)));
 }
 
 /// 默认构建月视图头部
@@ -62,33 +64,47 @@ Widget defaultBuildMonthHead(BuildContext context, DateMonth month,
         children: <Widget>[
           onLast == null
               ? Container()
-              : IconButton(icon: Icon(Icons.chevron_left, color: Color(0x73000000)), onPressed: onLast),
+              : IconButton(
+                  icon: Icon(Icons.chevron_left, color: Color(0x73000000)),
+                  onPressed: onLast),
           Text(month.toString(yearSuffix: '年', monthSuffix: '月'),
               style: TextStyle(fontSize: 20, color: Color(0xd9000000))),
           onNext == null
               ? Container()
-              : IconButton(icon: Icon(Icons.chevron_right, color: Color(0x73000000)), onPressed: onNext),
+              : IconButton(
+                  icon: Icon(Icons.chevron_right, color: Color(0x73000000)),
+                  onPressed: onNext),
         ],
       ),
     ),
     Positioned(
         top: 10,
         right: 10,
-        child: onClear == null ? Container() : IconButton(icon: Icon(Icons.delete_forever), onPressed: onClear,color: Colors.red))
+        child: onClear == null
+            ? Container()
+            : IconButton(
+                icon: Icon(Icons.delete_forever),
+                onPressed: onClear,
+                color: Colors.red))
   ]);
 }
 
 /// 默认构建年视图头部
-Widget defaultBuildYearHead(BuildContext context, int year, {VoidCallback onLast, VoidCallback onNext}) {
+Widget defaultBuildYearHead(BuildContext context, int year,
+    {VoidCallback onLast, VoidCallback onNext}) {
   return Container(
     padding: EdgeInsets.all(10),
     alignment: Alignment.center,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        onLast == null ? Container() : IconButton(icon: Icon(Icons.chevron_left), onPressed: onLast),
+        onLast == null
+            ? Container()
+            : IconButton(icon: Icon(Icons.chevron_left), onPressed: onLast),
         Text("$year", style: TextStyle(fontSize: 20)),
-        onNext == null ? Container() : IconButton(icon: Icon(Icons.chevron_right), onPressed: onNext),
+        onNext == null
+            ? Container()
+            : IconButton(icon: Icon(Icons.chevron_right), onPressed: onNext),
       ],
     ),
   );
@@ -117,7 +133,7 @@ Widget defaultBuildDayItem<T>(BuildContext context,
     double width,
     T markData,
     Color weekColor = const Color(0xa6000000),
-    Color weekendColor = const Color(0xffff9a9a),
+    Color weekendColor = const Color(0xffFF4081),
     bool isSelected = false,
     bool isContinuous = false,
     bool isMultiple = false,
@@ -131,9 +147,14 @@ Widget defaultBuildDayItem<T>(BuildContext context,
   Color _dayColor = Colors.transparent;
   TextStyle _style;
   if (!enableSelect) {
-    _style = TextStyle(fontSize: 18, color: dayTime.weekday > 5 ? weekendColor.withAlpha(65) : weekColor.withAlpha(80));
+    _style = TextStyle(
+        fontSize: 18,
+        color: dayTime.weekday > 5
+            ? weekendColor.withAlpha(65)
+            : weekColor.withAlpha(80));
   } else {
-    _style = TextStyle(fontSize: 18, color: dayTime.weekday > 5 ? weekendColor : weekColor);
+    _style = TextStyle(
+        fontSize: 18, color: dayTime.weekday > 5 ? weekendColor : weekColor);
   }
   if (isSelected) {
     _dayColor = Color(0xff487cff);
@@ -159,28 +180,34 @@ Widget defaultBuildDayItem<T>(BuildContext context,
     _sideColor = Color(0xc9c9d8ff);
   }
 
-  List<Widget> items = [Center(child: Text("${dayTime.day}${hasMark ? '' : ''}", style: _style))];
+  List<Widget> items = [
+    Center(child: Text("${dayTime.day}${hasMark ? '' : ''}", style: _style))
+  ];
   if (dayTime.isToday()) {
     items.add(Positioned(
       top: 2,
       right: 2,
       child: Material(
         color: Colors.transparent,
-        shape: RoundedRectangleBorder(side: BorderSide(width: 0.3, color: Colors.pinkAccent)),
+        shape: RoundedRectangleBorder(
+            side: BorderSide(width: 0.3, color: Colors.pinkAccent)),
         child: Padding(
           padding: EdgeInsets.all(1),
-          child:
-              Text(i18nObjInLocal(localeType)['today'], style: _style.copyWith(fontSize: 10, color: Colors.pinkAccent)),
+          child: Text(i18nObjInLocal(localeType)['today'],
+              style: _style.copyWith(fontSize: 10, color: Colors.pinkAccent)),
         ),
       ),
     ));
   }
   if (hasMark) {
-    items.add(buildMark == null ? defaultBuildMark() : buildMark(context, dayTime, markData));
+    items.add(buildMark == null
+        ? defaultBuildMark()
+        : buildMark(context, dayTime, markData));
   }
 
   return Padding(
-    padding: EdgeInsets.only(top: 9, bottom: 9, left: isMultiple ? 3 : 0, right: isMultiple ? 3 : 0),
+    padding: EdgeInsets.only(
+        top: 9, bottom: 9, left: isMultiple ? 3 : 0, right: isMultiple ? 3 : 0),
     child: Material(
       color: _dayColor,
       shape: RoundedRectangleBorder(
@@ -193,8 +220,8 @@ Widget defaultBuildDayItem<T>(BuildContext context,
       child: Ink(
         child: InkWell(
           onTap: () {
-            if (onDaySelected != null && enableSelect) {
-              onDaySelected(dayTime, markData);
+            if (onDaySelected != null) {
+              onDaySelected(dayTime, markData, enableSelect);
             }
           },
           child: Container(
@@ -216,12 +243,14 @@ typedef BuildWeekHead = Widget Function(BuildContext context, int week);
 /// 构建月相关控件  <br/>
 /// [context] - 上下文  <br/>
 /// [month] - 所在月份
-typedef BuildWithMonth = Widget Function(BuildContext context, double width, double height, DateMonth month);
+typedef BuildWithMonth = Widget Function(
+    BuildContext context, double width, double height, DateMonth month);
 
 /// 构建年相关控件  <br/>
 /// [context] - 上下文  <br/>
 /// [month] - 所在月份
-typedef BuildWithYear = Widget Function(BuildContext context, double width, double height, int year);
+typedef BuildWithYear = Widget Function(
+    BuildContext context, double width, double height, int year);
 
 /// 默认构建日视图  <br/>
 /// [context] - 上下文  <br/>
@@ -257,14 +286,17 @@ typedef BuildWithDay<T> = Widget Function(BuildContext context,
 /// [context] - 上下文  <br/>
 /// [day] - 所在日期  <br/>
 /// [data] - 若存在mark则返回mark的内容
-typedef BuildMark<T> = Widget Function(BuildContext context, DateDay day, T data);
+typedef BuildMark<T> = Widget Function(
+    BuildContext context, DateDay day, T data);
 
 /// 当日期被选中时回调  <br/>
 /// [day] - 选中的日期   <br/>
-/// [markData] - 若存在mark则返回mark的内容
-typedef OnDaySelected<T> = void Function(DateDay day, T markData);
+/// [markData] - 若存在mark则返回mark的内容<br/>
+/// [enable] - 是否是可选日期
+typedef OnDaySelected<T> = void Function(DateDay day, T markData, bool enable);
 
 /// 连选回调  <br/>
 /// [firstDay]-开始日期  <br/>
 /// [secondDay]-结束时间
-typedef OnContinuousSelectListen = void Function(DateDay firstDay, DateDay secondDay);
+typedef OnContinuousSelectListen = void Function(
+    DateDay firstDay, DateDay secondDay);
