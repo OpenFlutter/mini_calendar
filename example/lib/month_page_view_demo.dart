@@ -40,6 +40,8 @@ class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
                 // },
                 minDay: DateDay.now().copyWith(month: 1, day: 13),
                 maxDay: DateDay.now().copyWith(month: 12, day: 21),
+                enableDays: List.generate(20,
+                    (index) => DateDay.now().add(Duration(days: index + 1))),
                 enableMultiple: _selectType == 3,
               ),
               showWeekHead: true,
@@ -56,17 +58,19 @@ class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
                 _month = month;
                 setState(() {});
               },
-              onDaySelected: (day, data) {
-                _day = day;
-                _data = data;
-                setState(() {});
+              onDaySelected: (day, data, enable) {
+                if (enable) {
+                  _day = day;
+                  _data = data;
+                  setState(() {});
+                }
               },
               onCreated: (controller) => _controller = controller,
               localeType: CalendarLocaleType.zh,
-              onClear: (){
+              onClear: () {
                 _controller.option.setFirstSelectDay(null);
                 _controller.option.setSecondSelectDay(null);
-                _controller.option.setMutileDays([]);
+                _controller.option.setMultipleDays([]);
                 _controller.reLoad();
               },
             ),
@@ -76,17 +80,20 @@ class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
               children: List.generate(
                 12,
                 (index) => MaterialButton(
-                  shape: RoundedRectangleBorder(side: BorderSide(width: 0.3, color: Colors.pinkAccent)),
+                  shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 0.3, color: Colors.pinkAccent)),
                   minWidth: 20,
                   padding: EdgeInsets.zero,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   child: Text('${index + 1}'),
-                  onPressed: () => _controller?.goto(DateMonth.now().copyWith(month: index + 1)),
+                  onPressed: () => _controller
+                      ?.goto(DateMonth.now().copyWith(month: index + 1)),
                 ),
               )..insert(0, Text('跳转月份：')),
             ),
             Container(
-              child: Text('''当前月份：${_month.toString(yearSuffix: '年', monthSuffix: '月')}
+              child: Text(
+                  '''当前月份：${_month.toString(yearSuffix: '年', monthSuffix: '月')}
 可选范围：${DateDay.now().copyWith(month: 8, day: 13)} 至  ${DateDay.now().copyWith(month: 12, day: 21)} 
 选择模式：${_selectType == 2 ? '连选' : _selectType == 3 ? '多选' : '单选'} 
 单选日期：${_day?.toString(yearSuffix: '年', monthSuffix: '月', daySuffix: '日') ?? ''}   Mark： ${_data ?? ''}

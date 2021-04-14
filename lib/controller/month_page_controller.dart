@@ -19,7 +19,8 @@ class MonthPageController<T> {
   /// 页面控制器
   PageController _pageController;
 
-  StreamController<List<DateMonth>> _monthListController = StreamController.broadcast();
+  StreamController<List<DateMonth>> _monthListController =
+      StreamController.broadcast();
   Stream<List<DateMonth>> monthListStream() => _monthListController.stream;
   List<DateMonth> _monthList = [];
   List<DateMonth> get monthList => _monthList;
@@ -79,7 +80,8 @@ class MonthPageController<T> {
     if (_monthList.length > CACHE_SIZE) {
       _monthList.removeAt(0);
     } else {
-      MonthController<T> controller = MonthController.init(_option.copyWith(currentMonth: month));
+      MonthController<T> controller =
+          MonthController.init(_option.copyWith(currentMonth: month));
       _controllerList.add(controller);
     }
     reLoad();
@@ -87,12 +89,14 @@ class MonthPageController<T> {
 
   /// 首部增加月份，默认添加第一个月的上一月
   void addFirstMonth([DateMonth month]) {
-    month = month ?? _monthList.first.copyWith(month: _monthList.first.month - 1);
+    month =
+        month ?? _monthList.first.copyWith(month: _monthList.first.month - 1);
     _monthList.insert(0, month);
     if (_monthList.length > CACHE_SIZE) {
       _monthList.removeLast();
     } else {
-      MonthController<T> controller = MonthController.init(_option.copyWith(currentMonth: month));
+      MonthController<T> controller =
+          MonthController.init(_option.copyWith(currentMonth: month));
       _controllerList.insert(0, controller);
     }
     reLoad();
@@ -108,7 +112,7 @@ class MonthPageController<T> {
     ..setFirstSelectDay(firstDay)
     ..setSecondSelectDay(sercondDay);
 
-  void setMultipleDays(List<DateDay> days) => _option.setMutileDays(days);
+  void setMultipleDays(List<DateDay> days) => _option.setMultipleDays(days);
 
   void setMarks(Map<DateDay, T> marks) => _option.setMarks(marks);
 
@@ -137,10 +141,12 @@ class MonthPageController<T> {
   }
 
   /// 上一月
-  void last() => _pageController?.animateToPage(--_position, duration: Duration(milliseconds: 200), curve: Curves.ease);
+  void last() => _pageController?.animateToPage(--_position,
+      duration: Duration(milliseconds: 200), curve: Curves.ease);
 
   /// 下一月
-  void next() => _pageController?.animateToPage(++_position, duration: Duration(milliseconds: 200), curve: Curves.ease);
+  void next() => _pageController?.animateToPage(++_position,
+      duration: Duration(milliseconds: 200), curve: Curves.ease);
 
   /// 跳转到指定月份
   void goto(DateMonth month) {
@@ -151,7 +157,8 @@ class MonthPageController<T> {
     List.generate(CACHE_SIZE, (index) {
       addMonth(DateMonth(month.year, month.month - CACHE_SIZE ~/ 2 + index));
     });
-    _pageController?.animateToPage(_position, duration: Duration(milliseconds: 500), curve: Curves.ease);
+    _pageController?.animateToPage(_position,
+        duration: Duration(milliseconds: 500), curve: Curves.ease);
     changePosition(_position);
   }
 }

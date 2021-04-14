@@ -30,7 +30,9 @@ class DateMonth {
   DateMonth.dateTime(this._time) {
     _year = this.time.year;
     _month = this.time.month;
-    _maxDays = DateTime(this.time.year, this.time.month + 1, 1).add(Duration(days: -1)).day;
+    _maxDays = DateTime(this.time.year, this.time.month + 1, 1)
+        .add(Duration(days: -1))
+        .day;
   }
 
   DateMonth.now() : this.dateTime(DateTime.now());
@@ -39,31 +41,42 @@ class DateMonth {
     return DateMonth(year ?? this.year, month ?? this.month);
   }
 
-  DateMonth subtract(Duration duration) => DateMonth.dateTime(time.subtract(duration));
+  DateMonth subtract(Duration duration) =>
+      DateMonth.dateTime(time.subtract(duration));
 
   DateMonth add(Duration duration) => DateMonth.dateTime(time.add(duration));
 
   int get weekday => time.weekday;
 
   @override
-  String toString({String yearSuffix = '-',String monthSuffix = ''}) {
+  String toString({String yearSuffix = '-', String monthSuffix = ''}) {
     String y = fourDigits(year);
     String m = twoDigits(month);
     return "$y$yearSuffix$m$monthSuffix";
   }
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is DateMonth && num == other.num;
+  bool operator ==(Object other) =>
+      identical(this, other) || other is DateMonth && num == other.num;
 
-  bool operator >(Object other) => other is DateMonth && runtimeType == other.runtimeType && num > other.num;
+  bool operator >(Object other) =>
+      other is DateMonth && runtimeType == other.runtimeType && num > other.num;
 
-  bool operator <(Object other) => other is DateMonth && runtimeType == other.runtimeType && num < other.num;
+  bool operator <(Object other) =>
+      other is DateMonth && runtimeType == other.runtimeType && num < other.num;
 
-  bool operator >=(Object other) => other is DateMonth && runtimeType == other.runtimeType && num >= other.num;
+  bool operator >=(Object other) =>
+      other is DateMonth &&
+      runtimeType == other.runtimeType &&
+      num >= other.num;
 
-  bool operator <=(Object other) => other is DateMonth && runtimeType == other.runtimeType && num <= other.num;
+  bool operator <=(Object other) =>
+      other is DateMonth &&
+      runtimeType == other.runtimeType &&
+      num <= other.num;
 
-  bool contain(DateDay day) => day.year == this._year && day.month == this._month;
+  bool contain(DateDay day) =>
+      day.year == this._year && day.month == this._month;
 
   @override
   int get hashCode => num.hashCode;
