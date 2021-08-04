@@ -1,6 +1,6 @@
-# flutter_calendar_example
+# example
 
-Demonstrates how to use the flutter_calendar plugin.
+A new Flutter project.
 
 ## Getting Started
 
