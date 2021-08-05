@@ -6,10 +6,10 @@ import 'date_month.dart';
 /// Create by JsonYe<597232387@qq.com> on 2019/12
 ///
 class DateDay extends DateMonth {
-  int _day;
+  late int _day;
   int get day => _day;
 
-  DateDay([int year, int month, int day])
+  DateDay(int year, int month, [int day = 1])
       : this.dateTime(DateTime(year, month, day));
 
   DateDay.dateTime(DateTime time) : super.dateTime(time) {
@@ -18,7 +18,7 @@ class DateDay extends DateMonth {
 
   DateDay.now() : this.dateTime(DateTime.now());
 
-  DateDay copyWith({int year, int month, int day}) {
+  DateDay copyWith({int? year, int? month, int? day}) {
     return DateDay(year ?? this.year, month ?? this.month, day ?? this.day);
   }
 
@@ -33,7 +33,6 @@ class DateDay extends DateMonth {
       year == month.year && this.month == month.month;
 
   @override
-  // ignore: invalid_override_different_default_values_named
   String toString(
       {String yearSuffix = '-',
       String monthSuffix = '-',

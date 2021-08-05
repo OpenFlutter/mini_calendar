@@ -12,12 +12,12 @@ const int CACHE_SIZE = 12;
 /// Create by JsonYe<597232387@qq.com> on 2019/12
 ///
 class MonthPageController<T> {
-  List<MonthController<T>> _controllerList;
-  MonthOption<T> _option;
+  late List<MonthController<T>> _controllerList;
+  late MonthOption<T> _option;
   MonthOption<T> get option => _option;
 
   /// 页面控制器
-  PageController _pageController;
+  PageController? _pageController;
 
   StreamController<List<DateMonth>> _monthListController =
       StreamController.broadcast();
@@ -27,7 +27,7 @@ class MonthPageController<T> {
 
   StreamController<int> _positionController = StreamController.broadcast();
   Stream<int> positionStream() => _positionController.stream;
-  int _position;
+  late int _position;
   int get position => _position;
 
   /// 页面位置更改
@@ -37,7 +37,7 @@ class MonthPageController<T> {
   }
 
   /// 初始化
-  void init(MonthOption<T> option, {PageController pageController}) {
+  void init(MonthOption<T> option, {PageController? pageController}) {
     assert(option != null);
     _option = option;
     _controllerList = [];
@@ -49,17 +49,17 @@ class MonthPageController<T> {
     });
 
     if (_pageController != null) {
-      _pageController.addListener(() {
-        double position = _pageController.position.pixels;
+      _pageController!.addListener(() {
+        double position = _pageController!.position.pixels;
         if (position == 0) {
           addFirstMonth();
           _position = 1;
-          _pageController.jumpToPage(_position);
-        } else if (position == _pageController.position.maxScrollExtent) {
+          _pageController!.jumpToPage(_position);
+        } else if (position == _pageController!.position.maxScrollExtent) {
           addMonth();
           if (monthList.length == CACHE_SIZE) {
             _position = CACHE_SIZE - 2;
-            _pageController.jumpToPage(_position);
+            _pageController!.jumpToPage(_position);
           }
         }
       });
@@ -67,14 +67,14 @@ class MonthPageController<T> {
   }
 
   /// 获取月视图控制器
-  MonthController<T> getMonthController(DateMonth month) {
+  MonthController<T>? getMonthController(DateMonth month) {
     int index = _monthList.indexOf(month);
     if (index == -1) return null;
     return _controllerList[index];
   }
 
   /// 尾部增加月份，默认添加最后一月的下一月
-  void addMonth([DateMonth month]) {
+  void addMonth([DateMonth? month]) {
     month = month ?? _monthList.last.copyWith(month: _monthList.last.month + 1);
     _monthList.add(month);
     if (_monthList.length > CACHE_SIZE) {
@@ -88,7 +88,7 @@ class MonthPageController<T> {
   }
 
   /// 首部增加月份，默认添加第一个月的上一月
-  void addFirstMonth([DateMonth month]) {
+  void addFirstMonth([DateMonth? month]) {
     month =
         month ?? _monthList.first.copyWith(month: _monthList.first.month - 1);
     _monthList.insert(0, month);

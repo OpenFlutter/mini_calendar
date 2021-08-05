@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'mini_calendar.dart';
 
 import 'model/calendar_i18n_model.dart';
 import 'model/date_day.dart';
+import 'model/date_month.dart';
 
 /// 默认构建星期标题
 Widget defaultBuildWeekHead(BuildContext context, int week,
@@ -35,7 +35,7 @@ Widget defaultBuildWeekHead(BuildContext context, int week,
 }
 
 /// 默认构建标记
-Widget defaultBuildMark<T>({BuildContext context, DateDay day, T data}) {
+Widget defaultBuildMark<T>({BuildContext? context, DateDay? day, T? data}) {
   return Positioned(
     bottom: 0,
     left: 0,
@@ -54,7 +54,7 @@ Widget defaultBuildMonthBackground(BuildContext context, DateMonth month) {
 
 /// 默认构建月视图头部
 Widget defaultBuildMonthHead(BuildContext context, DateMonth month,
-    {VoidCallback onLast, VoidCallback onNext, VoidCallback onClear}) {
+    {VoidCallback? onLast, VoidCallback? onNext, VoidCallback? onClear}) {
   return Stack(children: [
     Container(
       padding: EdgeInsets.all(10),
@@ -91,7 +91,7 @@ Widget defaultBuildMonthHead(BuildContext context, DateMonth month,
 
 /// 默认构建年视图头部
 Widget defaultBuildYearHead(BuildContext context, int year,
-    {VoidCallback onLast, VoidCallback onNext}) {
+    {VoidCallback? onLast, VoidCallback? onNext}) {
   return Container(
     padding: EdgeInsets.all(10),
     alignment: Alignment.center,
@@ -125,13 +125,12 @@ Widget defaultBuildYearHead(BuildContext context, int year,
 /// [isMultiple] - 是否被多选 <br/>
 /// [buildMark] - 自定义构建mark <br/>
 /// [onDaySelected] - 选择事件 <br/>
-Widget defaultBuildDayItem<T>(BuildContext context,
-    {DateDay dayTime,
-    bool enableSelect,
-    bool hasMark,
-    double height,
-    double width,
-    T markData,
+Widget defaultBuildDayItem<T>(BuildContext context, DateDay dayTime,
+    {bool enableSelect = false,
+    bool hasMark = false,
+    double height = 30,
+    double width = 30,
+    T? markData,
     Color weekColor = const Color(0xa6000000),
     Color weekendColor = const Color(0xffFF4081),
     bool isSelected = false,
@@ -139,8 +138,8 @@ Widget defaultBuildDayItem<T>(BuildContext context,
     bool isMultiple = false,
     bool first = true,
     bool end = true,
-    BuildMark<T> buildMark,
-    OnDaySelected<T> onDaySelected,
+    BuildMark<T>? buildMark,
+    OnDaySelected<T>? onDaySelected,
     CalendarLocaleType localeType = CalendarLocaleType.zh}) {
   Color _sideColor = Colors.transparent;
   BorderRadiusGeometry borderRadius = BorderRadius.zero;
@@ -287,13 +286,13 @@ typedef BuildWithDay<T> = Widget Function(BuildContext context,
 /// [day] - 所在日期  <br/>
 /// [data] - 若存在mark则返回mark的内容
 typedef BuildMark<T> = Widget Function(
-    BuildContext context, DateDay day, T data);
+    BuildContext context, DateDay day, T? data);
 
 /// 当日期被选中时回调  <br/>
 /// [day] - 选中的日期   <br/>
 /// [markData] - 若存在mark则返回mark的内容<br/>
 /// [enable] - 是否是可选日期
-typedef OnDaySelected<T> = void Function(DateDay day, T markData, bool enable);
+typedef OnDaySelected<T> = void Function(DateDay day, T? markData, bool enable);
 
 /// 连选回调  <br/>
 /// [firstDay]-开始日期  <br/>

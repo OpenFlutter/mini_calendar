@@ -16,11 +16,11 @@ class MonthController<T> {
       StreamController.broadcast();
 
   Stream<MonthOption<T>> monthStream() => _monthController.stream;
-  MonthOption<T> _option;
+  late MonthOption<T> _option;
   get option => _option;
 
   /// 初始化
-  MonthController.init([MonthOption<T> option]) {
+  MonthController.init([MonthOption<T>? option]) {
     _option = option ?? MonthOption<T>();
   }
 
@@ -31,7 +31,7 @@ class MonthController<T> {
 
   void setCurrentMonth(DateMonth currentMonth) =>
       _option.setCurrentMonth(currentMonth);
-  void setCurrentDay(DateDay currentDay) => _option.setCurrentDay(currentDay);
+  void setCurrentDay(DateDay? currentDay) => _option.setCurrentDay(currentDay);
   void setFirstWeek(int week) => _option.setFirstWeek(week);
   void setEnableContinuous(bool enable) => _option.setEnableContinuous(enable);
   void setEnableMultiple(bool enable) => _option.setEnableMultiple(enable);
@@ -52,5 +52,5 @@ class MonthController<T> {
 
   void reLoad() => _monthController.sink.add(_option);
 
-  void dispose() => _monthController?.close();
+  void dispose() => _monthController.close();
 }
