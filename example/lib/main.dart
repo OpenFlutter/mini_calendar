@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -41,23 +41,22 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(
-              onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (ctx) => CalendarViewPage())),
-              child: Text('年历'),
-            ),
-            RaisedButton(
-              onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (ctx) => MonthPageViewDemo())),
-              child: Text('日历'),
-            ),
-            RaisedButton(
-              onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (ctx) => CalendarCustomizePage())),
-              child: Text('自定义'),
-            ),
+            _buildButton('年历', CalendarViewPage()),
+            _buildButton('翻页日历', MonthPageViewDemo()),
+            _buildButton('自定义', CalendarCustomizePage())
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildButton(String label, Widget page) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ElevatedButton(
+        onPressed: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (ctx) => page)),
+        child: Text(label),
       ),
     );
   }

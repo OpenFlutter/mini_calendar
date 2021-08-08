@@ -38,7 +38,6 @@ class MonthPageController<T> {
 
   /// 初始化
   void init(MonthOption<T> option, {PageController? pageController}) {
-    assert(option != null);
     _option = option;
     _controllerList = [];
     _position = CACHE_SIZE ~/ 2;
@@ -67,9 +66,9 @@ class MonthPageController<T> {
   }
 
   /// 获取月视图控制器
-  MonthController<T>? getMonthController(DateMonth month) {
+  MonthController<T> getMonthController(DateMonth month) {
     int index = _monthList.indexOf(month);
-    if (index == -1) return null;
+    // if (index == -1) return null;
     return _controllerList[index];
   }
 
@@ -108,9 +107,9 @@ class MonthPageController<T> {
 
   void setEnableMultiple(bool enable) => _option.setEnableMultiple(enable);
 
-  void setContinuousDay(DateDay firstDay, DateDay sercondDay) => _option
+  void setContinuousDay(DateDay? firstDay, DateDay? secondDay) => _option
     ..setFirstSelectDay(firstDay)
-    ..setSecondSelectDay(sercondDay);
+    ..setSecondSelectDay(secondDay);
 
   void setMultipleDays(List<DateDay> days) => _option.setMultipleDays(days);
 
@@ -134,9 +133,9 @@ class MonthPageController<T> {
 
   /// 关闭
   void dispose() {
-    _controllerList?.forEach((c) => c.dispose());
-    _monthListController?.close();
-    _positionController?.close();
+    _controllerList.forEach((c) => c.dispose());
+    _monthListController.close();
+    _positionController.close();
     _pageController?.dispose();
   }
 

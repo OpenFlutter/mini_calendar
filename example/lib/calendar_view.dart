@@ -34,7 +34,7 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
       months
         ..add(
           Container(
-            child: MonthWidget<String>(
+            child: MonthWidget(
               controller: controllers[index],
               localeType: Random().nextBool()
                   ? CalendarLocaleType.zh
@@ -60,7 +60,7 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
 
   @override
   void dispose() {
-    controllers.forEach((f) => f?.dispose());
+    controllers.forEach((f) => f.dispose());
     super.dispose();
   }
 }

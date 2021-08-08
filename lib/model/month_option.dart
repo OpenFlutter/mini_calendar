@@ -22,9 +22,9 @@ class MonthOption<T> {
   void setCurrentMonth(DateMonth? value) => _currentMonth = value;
 
   /// 第一列是星期几（1，2，3，4，5，6，7）
-  int? _firstWeek;
+  late int _firstWeek;
 
-  int? get firstWeek => _firstWeek;
+  int get firstWeek => _firstWeek;
 
   void setFirstWeek(int value) => _firstWeek = value;
 
@@ -33,14 +33,14 @@ class MonthOption<T> {
 
   DateDay? get firstSelectDay => _firstSelectDay;
 
-  void setFirstSelectDay(DateDay value) => _firstSelectDay = value;
+  void setFirstSelectDay(DateDay? value) => _firstSelectDay = value;
 
   /// 第二个选择的时间
   DateDay? _secondSelectDay;
 
   DateDay? get secondSelectDay => _secondSelectDay;
 
-  void setSecondSelectDay(DateDay value) => _secondSelectDay = value;
+  void setSecondSelectDay(DateDay? value) => _secondSelectDay = value;
 
   /// 是否开启连续选择
   late bool _enableContinuous;
@@ -94,26 +94,24 @@ class MonthOption<T> {
 
   void setEnableMultiple(bool value) => _enableMultiple = value;
 
-  late List<DateDay>? _multipleDays;
+  late List<DateDay> _multipleDays;
 
-  List<DateDay>? get multipleDays => _multipleDays;
+  List<DateDay> get multipleDays => _multipleDays;
 
   void setMultipleDays(List<DateDay> days) => _multipleDays = days;
 
   void add(DateDay day) {
-    if (_multipleDays == null) _multipleDays = [];
-    _multipleDays!.add(day);
+    _multipleDays.add(day);
   }
 
   bool remove(DateDay day) {
-    if (_multipleDays == null) return true;
-    return _multipleDays!.remove(day);
+    return _multipleDays.remove(day);
   }
 
   /// 在多选中
   bool inMultipleDay(DateDay day) {
-    if (!_enableMultiple || multipleDays == null) return false;
-    return multipleDays!.any((item) => item == day);
+    if (!_enableMultiple) return false;
+    return multipleDays.any((item) => item == day);
   }
 
   /// 初始化 <br/>
@@ -132,7 +130,7 @@ class MonthOption<T> {
   MonthOption({
     DateDay? currentDay,
     DateMonth? currentMonth,
-    int? firstWeek = 7,
+    int firstWeek = 7,
     DateDay? firstSelectDay,
     DateDay? secondSelectDay,
     bool enableContinuous = false,
@@ -153,7 +151,7 @@ class MonthOption<T> {
     this._enableMultiple = enableMultiple;
     this._firstSelectDay = firstSelectDay;
     this._secondSelectDay = secondSelectDay;
-    this._multipleDays = multipleDays;
+    this._multipleDays = multipleDays ?? [];
     this._enableDays = enableDays;
     this._marks = marks;
     this._minDay = minDay;

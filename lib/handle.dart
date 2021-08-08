@@ -266,19 +266,18 @@ typedef BuildWithYear = Widget Function(
 /// [isMultiple] - 是否被多选 <br/>
 /// [buildMark] - 自定义构建mark <br/>
 /// [onDaySelected] - 选择事件 <br/>
-typedef BuildWithDay<T> = Widget Function(BuildContext context,
-    {DateDay dayTime,
-    bool enableSelect,
+typedef BuildWithDay<T> = Widget Function(BuildContext context, DateDay dayTime,
+    {bool enableSelect,
     bool hasMark,
     double height,
     double width,
-    T markData,
+    T? markData,
     Color weekColor,
     Color weekendColor,
     bool isSelected,
     bool isContinuous,
     bool isMultiple,
-    BuildMark<T> buildMark,
+    BuildMark<T>? buildMark,
     OnDaySelected<T> onDaySelected});
 
 /// 构建Mark  <br/>
@@ -298,4 +297,4 @@ typedef OnDaySelected<T> = void Function(DateDay day, T? markData, bool enable);
 /// [firstDay]-开始日期  <br/>
 /// [secondDay]-结束时间
 typedef OnContinuousSelectListen = void Function(
-    DateDay firstDay, DateDay secondDay);
+    DateDay? firstDay, DateDay? secondDay);

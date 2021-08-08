@@ -15,7 +15,7 @@ class MonthController<T> {
   StreamController<MonthOption<T>> _monthController =
       StreamController.broadcast();
 
-  Stream<MonthOption<T>> monthStream() => _monthController.stream;
+  Stream<MonthOption<T>>? monthStream() => _monthController.stream;
   late MonthOption<T> _option;
   get option => _option;
 
@@ -35,7 +35,7 @@ class MonthController<T> {
   void setFirstWeek(int week) => _option.setFirstWeek(week);
   void setEnableContinuous(bool enable) => _option.setEnableContinuous(enable);
   void setEnableMultiple(bool enable) => _option.setEnableMultiple(enable);
-  void setContinuousDay(DateDay firstDay, DateDay secondDay) => _option
+  void setContinuousDay(DateDay? firstDay, DateDay? secondDay) => _option
     ..setFirstSelectDay(firstDay)
     ..setSecondSelectDay(secondDay);
 
