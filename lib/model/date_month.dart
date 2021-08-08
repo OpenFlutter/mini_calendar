@@ -9,15 +9,15 @@ class DateMonth {
   DateTime _time;
   DateTime get time => _time;
 
-  int _year;
+  late int _year;
 
   int get year => _year;
 
-  int _month;
+  late int _month;
 
   int get month => _month;
 
-  int _maxDays;
+  late int _maxDays;
 
   int get maxDays => _maxDays;
 
@@ -25,7 +25,8 @@ class DateMonth {
 
   DateDay get monthEndDay => DateDay(year, month, maxDays);
 
-  DateMonth([int year, int month]) : this.dateTime(DateTime(year, month, 1));
+  DateMonth(int year, [int month = 1])
+      : this.dateTime(DateTime(year, month, 1));
 
   DateMonth.dateTime(this._time) {
     _year = this.time.year;
@@ -37,7 +38,7 @@ class DateMonth {
 
   DateMonth.now() : this.dateTime(DateTime.now());
 
-  DateMonth copyWith({int year, int month}) {
+  DateMonth copyWith({int? year, int? month}) {
     return DateMonth(year ?? this.year, month ?? this.month);
   }
 

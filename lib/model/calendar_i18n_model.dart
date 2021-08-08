@@ -56,10 +56,10 @@ final _i18nModel = {
 Map<String, dynamic> i18nObjInLocal(CalendarLocaleType type) {
   switch (type) {
     case CalendarLocaleType.en:
-      return _i18nModel['en'];
+      return _i18nModel['en']!;
     case CalendarLocaleType.zh:
-      return _i18nModel['zh'];
+      return _i18nModel['zh']!;
     default:
-      return _i18nModel['zh'];
+      return _i18nModel['zh']!;
   }
 }

@@ -110,4 +110,8 @@ _controller.addListener(() {
 #### 支持多选
 
 
-![演示](https://upload-images.jianshu.io/upload_images/14097955-88d9957dbdc0c533.gif)
+### 2021-08-06 记
+
+适配FLutter 2.0；空安全。
+增加清空内容的功能。
+点击上一月或下一月日期可翻页。

@@ -28,7 +28,7 @@ class _CalendarCustomizePageState extends State<CalendarCustomizePage> {
       monthHeadColor: Colors.purpleAccent,
       weekHeadColor: Colors.orangeAccent,
       buildMonthBackground: (_, width, height, month) => Image.network(
-        'https://ssyerv1.oss-cn-hangzhou.aliyuncs.com/picture/b0c57bd90abd49d59920924010ab66a9.png!sswm',
+        'https://doge.zzzmh.cn/wallpaper/origin/73c31ad1881611ebb6edd017c2d2eca2.jpg/thumbs',
         height: height,
         width: width,
         fit: BoxFit.cover,
@@ -37,8 +37,8 @@ class _CalendarCustomizePageState extends State<CalendarCustomizePage> {
       weekendColor: Colors.deepOrange,
     ));
     months.add(Divider());
-    months.add(MonthWidget(
-      controller: MonthController.init(
+    months.add(MonthWidget<String>(
+      controller: MonthController<String>.init(
         MonthOption<String>(
           currentMonth: DateMonth.now().copyWith(month: 7),
           currentDay: DateDay.now().copyWith(month: 7, day: 17),
@@ -105,7 +105,7 @@ class _CalendarCustomizePageState extends State<CalendarCustomizePage> {
       ),
       showBackground: true,
       buildMonthBackground: (ctx, width, height, month) => Image.network(
-        "https://ssyerv1.oss-cn-hangzhou.aliyuncs.com/picture/99eb5a4758ae4d44b2e336da92a30df5.png!sswm",
+        "https://doge.zzzmh.cn/wallpaper/origin/9489fd7f49cf4998a706c5539a1d8ccc.jpg/thumbs",
         fit: BoxFit.fill,
         width: width,
         height: height,

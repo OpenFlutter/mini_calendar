@@ -8,12 +8,12 @@ class MonthPageViewDemo extends StatefulWidget {
 }
 
 class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
-  MonthPageController _controller;
+  MonthPageController? _controller;
   DateMonth _month = DateMonth.now();
-  DateDay _firstDay, _secondDay, _day;
+  DateDay? _firstDay, _secondDay, _day;
   List<DateDay> _days = [];
   int _selectType = 1;
-  String _data = '';
+  String? _data = '';
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +24,8 @@ class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             _buildSelectTime(),
-            MonthPageView(
-              padding: EdgeInsets.all(1),
-              scrollDirection: Axis.horizontal,
-              option: MonthOption(
+            MonthPageView<String>(
+              MonthOption<String>(
                 enableContinuous: _selectType == 2,
                 marks: {
                   DateDay.now().copyWith(day: 1): '111',
@@ -40,6 +38,8 @@ class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
                 maxDay: DateDay.now().copyWith(month: 12, day: 21),
                 enableMultiple: _selectType == 3,
               ),
+              padding: EdgeInsets.all(1),
+              scrollDirection: Axis.horizontal,
               showWeekHead: true,
               onContinuousSelectListen: (firstDay, endFay) {
                 _firstDay = firstDay;
@@ -108,7 +108,7 @@ class _MonthPageViewDemoState extends State<MonthPageViewDemo> {
           _selectType = index;
           _controller?.setEnableContinuous(_selectType == 2);
           _controller?.setEnableMultiple(_selectType == 3);
-          _controller.reLoad();
+          _controller?.reLoad();
           setState(() {});
         },
         children: map,

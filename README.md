@@ -15,10 +15,12 @@ Date component developed with Flutter, plans to support display, swipe left and 
 
 ## 使用
 ### 引入库
+
 ```dart
 dependencies:
-  mini_calendar: ^0.3.2
+  mini_calendar: ^2.0.0
 ```
+
 ### 导包
 ```dart
 import 'package:mini_calendar/mini_calendar.dart';
@@ -78,17 +80,15 @@ MonthWidget(
 ![image.png](https://cdn.nlark.com/yuque/0/2019/png/179485/1576584797091-8f86bb0c-b470-49c7-85dd-00f68febca94.png)
 
 
-
-<a name="PzRDh"></a>
 ### 滚动日历(MonthPageView)
 
 > 控制器需要创建后获取 `onCreated`
 
 ```dart
-MonthPageView(
+MonthPageView<T>(
   padding: EdgeInsets.all(1),
   scrollDirection: Axis.horizontal,// 水平滑动或者竖直滑动
-  option: MonthOption(
+  option: MonthOption<T>(
     enableContinuous: true,// 单选、连选控制
     marks: { 
       DateDay.now().copyWith(day: 1): '111',
@@ -99,20 +99,23 @@ MonthPageView(
     },
   ),
   showWeekHead: true, // 显示星期头部
-  onContinuousSelectListen: (firstDay, endFay) {
+  onContinuousSelectListen: (DateDay？firstDay,DateDay？endFay) {
   },// 连选回调
+  onMultipleSelectListen: (list) {
+  },// 多选回调
   onMonthChange: (month) {
   },// 月份更改回调
-  onDaySelected: (day, data) {
+  onDaySelected: (DateDay day, T? markData, bool enable) {
+    // enable : 是否是可选日期
   },// 日期选中会迪欧啊
   onCreated: (controller){
   }, // 控制器回调
+  onClear: () {
+  }// 点击清空按钮，设置为空时不显示清空按钮
 ),
 ```
 
-<a name="BuYna"></a>
 ### 控制器
-<a name="7mWMM"></a>
 #### 参数初始化
 ```dart
 MonthOption({
@@ -123,31 +126,29 @@ MonthOption({
     DateDay secondSelectDay,//连选第二个日期
     bool enableContinuous = false,//是否支持连选
     Map<DateDay, T> marks = const {},//标记
+    List<DateDay>? multipleDays, // 多选日期
+    List<DateDay>? enableDays, // 能选择的日期集合
+    bool enableMultiple = false,//是否支持多选
     DateDay minDay,//可选的最小日期
     DateDay maxDay,//可选的最大日期
   });
 ```
-<a name="Ym5vA"></a>
 #### 注销
 ```dart
 MonthPageController#dispose();
 ```
-<a name="cmGVq"></a>
 #### 更新
 ```dart
 MonthPageController#reLoad();
 ```
-<a name="lWF7m"></a>
 #### 下一月
 ```dart
 MonthPageController#next();
 ```
-<a name="PqzYu"></a>
 #### 上一月
 ```dart
 MonthPageController#last();
 ```
-<a name="cVKdI"></a>
 #### 跳转到指定月份
 ```dart
 MonthPageController#goto(DateMonth month);
