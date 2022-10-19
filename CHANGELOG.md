@@ -1,3 +1,6 @@
+## 2.0.1
+- 修复 `Operand of null-aware operation '!' has type 'SchedulerBinding' which excludes null`
+
 ## 2.0.0
 - 适配flutter 2.0，空安全。
 - 增加清除功能。
