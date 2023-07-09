@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import '../model/month_option.dart';
 import '../mini_calendar.dart';
 
 const double SPACING = 0.0;

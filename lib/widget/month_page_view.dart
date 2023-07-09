@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import '../model/calendar_i18n_model.dart';
 
-import 'month_widget.dart';
-import '../handle.dart';
 import '../mini_calendar.dart';
-import '../controller/month_page_controller.dart';
-import '../model/date_month.dart';
-import '../model/month_option.dart';
 
 ///
 /// 翻页日历 <br/>
@@ -117,7 +111,7 @@ class _MonthPageViewState<T> extends State<MonthPageView<T>> {
       _monthPageController.positionStream().listen((position) =>
           widget.onMonthChange!(_monthPageController.monthList[position]));
     }
-    SchedulerBinding.instance!.addPostFrameCallback((Duration timeStamp) {
+    SchedulerBinding.instance.addPostFrameCallback((Duration timeStamp) {
       if (widget.onCreated != null) {
         widget.onCreated!(_monthPageController);
       }
