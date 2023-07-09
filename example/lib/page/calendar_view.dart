@@ -60,7 +60,7 @@ class _CalendarViewPageState extends State<CalendarViewPage> {
 
   @override
   void dispose() {
-    controllers.forEach((f) => f?.dispose());
+    controllers.forEach((f) => f.dispose());
     super.dispose();
   }
 }
